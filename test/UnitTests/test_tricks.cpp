@@ -9,6 +9,22 @@
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 
 TEST(cg_trick,abs_measure){
+    {
+        float a=9.f;
+        float b=-9.f;
+        float tol = 0.00001f;
+        EXPECT_NEAR(fln::abs(a),a,tol);
+        EXPECT_NEAR(fln::abs(b),a,tol);
+        EXPECT_NEAR(std::abs(a),a,tol);
+        EXPECT_NEAR(std::abs(b),a,tol);
+        EXPECT_NEAR((a<0)?-a:a,a,tol);
+        EXPECT_NEAR((b<0)?-b:b,a,tol);
+        EXPECT_NEAR((a<0)?fln::negate(a):a,a,tol);
+        EXPECT_NEAR((b<0)?fln::negate(b):b,a,tol);
+        EXPECT_NEAR(fln::fastAbs(a),a,tol);
+        EXPECT_NEAR(fln::fastAbs(b),a,tol);
+    }
+
     std::cout << "---=== Profiling abs function ===---" << std::endl;
     CHRONOMETER_DURATION(,,"",1,1); // warmup
     CHRONOMETER_DURATION(c=fln::abs(a),fln::f32 c; fln::f32 a=-1,           "myabs         ", 500, 1000000)
