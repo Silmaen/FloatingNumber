@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="TDG - Docker x64 (206accf0-76b7-4fa1-81a4-45c648ae7b45)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="TDG - QEmu arm64 (f1c19bb3-205a-40ba-b658-8795d05b272c)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="docker -alpine (fbc57c5b-737f-4554-8e4c-b72385c56e34)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.beIeLI" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-linux" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-local" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-local" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-linux" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="docker -ubuntu (0d0ff062-e9ae-418c-bf86-90a16f6be120)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="sattelite (9732b6f4-8fd4-46c2-8d81-2959460e8c9a)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
