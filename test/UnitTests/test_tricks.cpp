@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-//#define IDEBUG
+#define IDEBUG
 #include <baseFunctions.h>
 #include "trickFunctions.h"
 #include "testHelper.h"
@@ -8,7 +8,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 
-TEST(cg_trick,abs_measure){
+TEST(fln_trick,abs_measure){
     {
         float a=9.f;
         float b=-9.f;
@@ -40,47 +40,54 @@ TEST(cg_trick,abs_measure){
     CHRONOMETER_ITERATION(c=fln::fastAbs(a),fln::f32 c; fln::f32 a=-1,       "fastAbs       ", 5000000, 50.0)
 }
 
-TEST(cg_trick,sqrt_measure){
+TEST(fln_trick, log2_measure){
+
+}
+
+
+TEST(fln_trick,sqrt_measure){
     {
         float a=9.f;
         float val=3.f;
         float tol = val * 0.05f;
         EXPECT_NEAR(fln::fastSqrt(a),val,tol);
+        EXPECT_NEAR(fln::fastSqrt2(a),val,tol);
+        EXPECT_NEAR(fln::fastSqrt3(a),val,tol);
         EXPECT_NEAR(fln::fasterSqrt(a),val,tol);
-        EXPECT_NEAR(fln::fasterSqrt2(a),val,tol);
-        EXPECT_NEAR(fln::fastersqrt(a),val,tol);
         EXPECT_NEAR(std::sqrt(a),val,tol);
         a=10000.f;
         val=100.f;
         tol = val * 0.05f;
         EXPECT_NEAR(fln::fastSqrt(a),val,tol);
+        EXPECT_NEAR(fln::fastSqrt2(a),val,tol);
+        EXPECT_NEAR(fln::fastSqrt3(a),val,tol);
         EXPECT_NEAR(fln::fasterSqrt(a),val,tol);
-        EXPECT_NEAR(fln::fasterSqrt2(a),val,tol);
-        EXPECT_NEAR(fln::fastersqrt(a),val,tol);
         EXPECT_NEAR(std::sqrt(a),val,tol);
         a=1.f;
         val=1.f;
         tol = val * 0.05f;
         EXPECT_NEAR(fln::fastSqrt(a),val,tol);
+        EXPECT_NEAR(fln::fastSqrt2(a),val,tol);
+        EXPECT_NEAR(fln::fastSqrt3(a),val,tol);
         EXPECT_NEAR(fln::fasterSqrt(a),val,tol);
-        EXPECT_NEAR(fln::fasterSqrt2(a),val,tol);
-        EXPECT_NEAR(fln::fastersqrt(a),val,tol);
         EXPECT_NEAR(std::sqrt(a),val,tol);
     }
 
     std::cout << "---=== Profiling sqrt functions 500ms executions ===---" << std::endl;
     CHRONOMETER_DURATION(,,"",1,1); // warmup
-    CHRONOMETER_DURATION(c=fln::fasterSqrt(a),fln::f32 c; fln::f32 a=9,  "fasterSqrt    ", 500, 1000000)
-    CHRONOMETER_DURATION(c=fln::fasterSqrt2(a),fln::f32 c; fln::f32 a=9, "fasterSqrt2   ", 500, 1000000)
-    CHRONOMETER_DURATION(c=fln::fastersqrt(a),fln::f32 c; fln::f32 a=9,  "fastersqrt    ", 500, 1000000)
-    CHRONOMETER_DURATION(c=std::sqrt(a),fln::f32 c; fln::f32 a=9,        "std::sqrt     ", 500, 1000000)
-    CHRONOMETER_DURATION(c=fln::fastSqrt(a),fln::f32 c; fln::f32 a=9,    "fastSqrt      ", 500, 1000000)
+    CHRONOMETER_DURATION(c=std::sqrt(a),fln::f32 c; fln::f32 a=9,       "std::sqrt  ", 500, 1000000)
+    CHRONOMETER_DURATION(c=fln::fastSqrt(a),fln::f32 c; fln::f32 a=9,   "fastSqrt   ", 500, 1000000)
+    CHRONOMETER_DURATION(c=fln::fastSqrt_(a),fln::f32 c; fln::f32 a=9,  "fastSqrt_  ", 500, 1000000)
+    CHRONOMETER_DURATION(c=fln::fastSqrt2(a),fln::f32 c; fln::f32 a=9,  "fastSqrt2  ", 500, 1000000)
+    CHRONOMETER_DURATION(c=fln::fastSqrt3(a),fln::f32 c; fln::f32 a=9,  "fastSqrt3  ", 500, 1000000)
+    CHRONOMETER_DURATION(c=fln::fasterSqrt(a),fln::f32 c; fln::f32 a=9, "fasterSqrt ", 500, 1000000)
     std::cout << "---=== Profiling sqrt functions 5M loops ===---" << std::endl;
-    CHRONOMETER_ITERATION(c=fln::fasterSqrt(a),fln::f32 c; fln::f32 a=9,  "fasterSqrt    ", 5000000, 50.0)
-    CHRONOMETER_ITERATION(c=fln::fasterSqrt2(a),fln::f32 c; fln::f32 a=9, "fasterSqrt2   ", 5000000, 50.0)
-    CHRONOMETER_ITERATION(c=fln::fastersqrt(a),fln::f32 c; fln::f32 a=9,  "fastersqrt    ", 5000000, 50.0)
-    CHRONOMETER_ITERATION(c=std::sqrt(a),fln::f32 c; fln::f32 a=9,        "std::sqrt     ", 5000000, 50.0)
-    CHRONOMETER_ITERATION(c=fln::fastSqrt(a),fln::f32 c; fln::f32 a=9,    "fastSqrt      ", 5000000, 50.0)
+    CHRONOMETER_ITERATION(c=std::sqrt(a),fln::f32 c; fln::f32 a=9,      "std::sqrt  ", 5000000, 50.0)
+    CHRONOMETER_ITERATION(c=fln::fastSqrt(a),fln::f32 c; fln::f32 a=9,  "fastSqrt   ", 5000000, 50.0)
+    CHRONOMETER_ITERATION(c=fln::fastSqrt_(a),fln::f32 c; fln::f32 a=9, "fastSqrt_  ", 5000000, 50.0)
+    CHRONOMETER_ITERATION(c=fln::fastSqrt2(a),fln::f32 c; fln::f32 a=9, "fastSqrt2  ", 5000000, 50.0)
+    CHRONOMETER_ITERATION(c=fln::fastSqrt3(a),fln::f32 c; fln::f32 a=9, "fastSqrt3  ", 5000000, 50.0)
+    CHRONOMETER_ITERATION(c=fln::fasterSqrt(a),fln::f32 c; fln::f32 a=9,"fasterSqrt ", 5000000, 50.0)
 }
 
 

@@ -69,15 +69,5 @@ constexpr void bitToggle(u64& number, const u8& bit) { number^= 1ull << bit; }
     y*= 8.2629582881927490e-8f;
     return (y - 87.989971088f);
 }
-// SQRT
-[[nodiscard]] constexpr f32 fastersqrt(const f32& x) {
-    union {
-        s32 i;
-        f32 x;
-    } u{};
-    u.x= x;
-    u.i= (1 << 29) + (u.i >> 1) - (1 << 22);
-    return (u.x);
-}
 
 }// namespace fln
