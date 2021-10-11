@@ -1,12 +1,17 @@
 /**
 * \author Silmaen
-* \created 07/10/2021
+* \date 07/10/2021
 */
 #pragma once
 #include "baseDefines.h"
 #include "baseType.h"
 
 namespace fln {
+
+/**
+ * @brief set of ternary-based math operations
+ */
+namespace ternary {
 // SIGN
 [[nodiscard]] constexpr s32 sign(const s32& x) { return (x < 0 ? -1 : ((x > 0) ? 1 : 0)); }
 [[nodiscard]] constexpr f32 sign(const f32& x) { return (x < 0 ? -1.0f : ((x > 0) ? 1.0f : 0.0f)); }
@@ -35,7 +40,12 @@ namespace fln {
 [[nodiscard]] constexpr s32 max(const s32& a, const s32& b) { return ((a > b) ? a : b); }
 [[nodiscard]] constexpr s64 max(const s64& a, const s64& b) { return ((a > b) ? a : b); }
 [[nodiscard]] constexpr f32 max(const f32& a, const f32& b) { return ((a > b) ? a : b); }
+}// namespace ternary
 
+/**
+ * @brief set of bits operations
+ */
+namespace bits {
 // Bits operations
 constexpr void bitSet(u8& number, const u8& bit) { number|= 1ul << bit; }
 constexpr void bitDefine(u8& number, const u8& bit, const bool& value) { number= (number & ~(1UL << bit)) | (value << bit); }
@@ -47,8 +57,18 @@ constexpr void bitDefine(u64& number, const u8& bit, const bool& value) { number
 constexpr void bitClear(u64& number, const u8& bit) { number&= ~(1ull << bit); }
 constexpr void bitToggle(u64& number, const u8& bit) { number^= 1ull << bit; }
 [[nodiscard]] constexpr bool bitGet(const u64& number, const u8& bit) { return ((number >> bit) & 1ull); }
+}// namespace bits
 
+/**
+ * @brief set of builtin-based functions
+ */
+namespace builtin {
 // log2
+/**
+ * @brief compute the log2 of a 32bit unsigned integer
+ * @param x the input integer
+ * @return the log2
+ */
 [[nodiscard]] constexpr u32 log2i(const u32& x) {
 #ifdef _MSC_VER
     unsigned long result= 0;
@@ -58,16 +78,6 @@ constexpr void bitToggle(u64& number, const u8& bit) { number^= 1ull << bit; }
     return (32 - __builtin_clz(x));
 #endif
 }
-// -- FAST MATH -- (approx)
-// LOGARITM
-[[nodiscard]] constexpr f32 fasterlog(const f32& x) {
-    union {
-        f32 f;
-        u32 i;
-    } vx  = {x};
-    auto y= (f32)vx.i;
-    y*= 8.2629582881927490e-8f;
-    return (y - 87.989971088f);
-}
+}// namespace builtin
 
 }// namespace fln

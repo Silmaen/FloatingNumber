@@ -7,26 +7,30 @@
 
 #pragma once
 #include "baseType.h"
-
-namespace fln {
-
+/**
+ * @namespace fln::object
+ * @brief set of function based on a float object that allow bit manipulation
+ */
+namespace fln::object {
+/**
+ * @brief set of 32 constant and magic numbers
+ */
 namespace f32const {
-constexpr u32 signMask= 0b10000000000000000000000000000000;
-constexpr u32 expoMask= 0b01111111100000000000000000000000;
-constexpr u32 mantMask= 0b00000000011111111111111111111111;
-constexpr u8 expoBias = 127;
-constexpr u32 oneAsInt= 0x3f800000;
-constexpr u32 NotSign = 0b01111111111111111111111111111111;
-constexpr f32 scaleUp= float(0x00800000);
-constexpr f32 scaleDown= 1.0f/scaleUp;
+constexpr u32 signMask = 0b10000000000000000000000000000000;
+constexpr u32 expoMask = 0b01111111100000000000000000000000;
+constexpr u32 mantMask = 0b00000000011111111111111111111111;
+constexpr u8 expoBias  = 127;
+constexpr u32 oneAsInt = 0x3f800000;
+constexpr u32 NotSign  = 0b01111111111111111111111111111111;
+constexpr f32 scaleUp  = float(0x00800000);
+constexpr f32 scaleDown= 1.0f / scaleUp;
 }// namespace f32const
 /**
  * @brief class to better handle float and their bits
  *
  * this class is not designed for performance
  */
-class explicitFloat {
-public:
+struct explicitFloat {
     explicitFloat()                          = default;
     explicitFloat(const explicitFloat& a)    = default;
     explicitFloat(explicitFloat&& a) noexcept= default;
@@ -90,13 +94,13 @@ public:
         return a;
     }
     f32 mantissaEval() const {
-        u32 m = mantissaRaw();
+        u32 m     = mantissaRaw();
         f32 result= 0.;
-        f32 div = 0.5;
+        f32 div   = 0.5;
         for(u8 i= 0; i < 23; ++i) {
             u32 bitMask= 1U << (22U - i);
             result+= ((m & bitMask) == bitMask) * div;
-            div *= 0.5;
+            div*= 0.5;
         }
         return result;
     }
@@ -119,25 +123,51 @@ public:
     f32 asFloat() const { return data.f; }
     u32 asUInt() const { return data.i; }
 
-    // Fast approximate log2(|x|). It assumes the sign is positive.
-    f32 log2()const{
-        return f32((s32)data.i - (s32)f32const::oneAsInt)*f32const::scaleDown;
-    }
-    // Fast approximate log2(|x|).
-    f32 log2a()const{
-        return f32((s32)(data.i&f32const::NotSign) - (s32)f32const::oneAsInt)*f32const::scaleDown;
-    }
-    f32 exp2()const{
-        Data a;
-        a.i = (s32)(data.f*f32const::scaleUp)+(s32)f32const::oneAsInt;
-        return a.f;
-    }
-
-private:
     union Data {
         f32 f;
         u32 i;
     } data{0};
 };
+
+/**
+ * @brief Fast approximate logarithm base 2.
+ *
+ * Works for positive values of f, for negative value, the behavior is undefined.
+ *
+ * The absolute error is between 0.0 and -0.04 for any positive input value.
+ *
+ * @param f The input value.
+ * @return The approximate log2.
+ */
+[[nodiscard]] inline f32 log2(const explicitFloat& f) {
+    return f32((s32)f.data.i - (s32)f32const::oneAsInt) * f32const::scaleDown;
+}
+/**
+ * @brief Fast approximate logarithm base 2 of the absolute value.
+ *
+ * The absolute error is between 0.0 and -0.04 for any positive input value.
+ *
+ * @param f The input value.
+ * @return The approximate log2.
+ */
+[[nodiscard]] inline f32 log2a(const explicitFloat& f) {
+    return f32((s32)(f.data.i & f32const::NotSign) - (s32)f32const::oneAsInt) * f32const::scaleDown;
+}
+
+/**
+ * @brief Fast approximation of the power of 2.
+ *
+ * Works for values between -120 & 120, else the result is overflowing 32bits float and behavior is undefined.
+ *
+ * Relative error is between 0.0 and -0.04 for any value in non-overflowing range.
+ *
+ * @param f The input value.
+ * @return The approximate exp2.
+ */
+[[nodiscard]] inline f32 exp2(const explicitFloat& f)  {
+    explicitFloat::Data a;
+    a.i= (s32)(f.data.f * f32const::scaleUp) + (s32)f32const::oneAsInt;
+    return a.f;
+}
 
 }// namespace fln
