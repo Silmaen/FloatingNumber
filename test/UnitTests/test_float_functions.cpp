@@ -10,7 +10,7 @@
 
 TEST(float_functions, log2){
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "---=== TESTING LOG2 ===---" << std::endl;
+    std::cout << "---=== TESTING OBJECT LOG2 ===---" << std::endl;
 #endif
     std::vector<fln::f32> numbers ={};
     for (fln::f32 i=-25.0;i<26.0;i+=0.001){
@@ -28,14 +28,14 @@ TEST(float_functions, log2){
     EXPECT_LT(mean, 0.05);
     EXPECT_LT(stdev, 0.05);
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "average absolute error of internal log 2: " << mean << " standard deviation: " << stdev << std::endl;
-    std::cout << "---=== END LOG2 ===---" << std::endl;
+    std::cout << "average absolute error of object log 2: " << mean << " standard deviation: " << stdev << std::endl;
+    std::cout << "---=== END OBJECT LOG2 ===---" << std::endl;
 #endif
 }
 
 TEST(float_functions, exp2){
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "---=== TESTING EXP2 ===---" << std::endl;
+    std::cout << "---=== TESTING OBJECT EXP2 ===---" << std::endl;
 #endif
     std::vector<fln::f32> numbers ={};
     for (fln::f32 i=-80.0;i<80.0;i+=0.1){
@@ -53,8 +53,8 @@ TEST(float_functions, exp2){
     EXPECT_LT(mean, 0.05);
     EXPECT_LT(stdev, 0.05);
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "average relative error of internal log 2: " << mean << " standard deviation: " << stdev << std::endl;
-    std::cout << "---=== END EXP2 ===---" << std::endl;
+    std::cout << "average relative error of object log 2: " << mean << " standard deviation: " << stdev << std::endl;
+    std::cout << "---=== END OBJECT EXP2 ===---" << std::endl;
 #endif
 }
 

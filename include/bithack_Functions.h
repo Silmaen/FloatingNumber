@@ -13,12 +13,18 @@ namespace fln {
 
 /**
  * @brief set of function based on classical bit hack
+ *
+ * the main Idea is to get access to the bits of float by using
+ * the fln::bithack::asInt and fln::bithack::asFloat to toggle between float and ints
  */
 namespace bithack {
 // magic numbers
 constexpr u32 oneAsInt32 = 0b00111111100000000000000000000000;///< float(1) as int
 constexpr f32 ScaleUp32  = float(0x00800000);                 ///< 8388608.0, 2^23
 constexpr f32 ScaleDown32= 1.0f / ScaleUp32;                  ///< Scaling down, inverse of ScaleUp32
+constexpr u64 oneAsInt64 = 0b0011111111110000000000000000000000000000000000000000000000000000;///< double(1) as int
+constexpr f64 ScaleUp64  = double(1ULL<<52U);                 ///< 2^52
+constexpr f64 ScaleDown64= 1.0 / ScaleUp64;                   ///< Scaling down, inverse of ScaleUp32
 
 // Bit masks for the position of the sign bit
 constexpr u32 negZero32= 0x80000000;         ///< mask of the sign bit for 32 bits
@@ -87,13 +93,13 @@ constexpr u64 nnegZero64= ~negZero64;///< mask of the 64 bits except sign bit
  * @param f the float negate
  * @return the absolute value of the float
  */
-[[nodiscard]] constexpr f32 fastAbs(const f32& f) { return asFloat(asInt(f) & nnegZero32); }
+[[nodiscard]] constexpr f32 abs(const f32& f) { return asFloat(asInt(f) & nnegZero32); }
 /**
  * @brief get absolute value of a float
  * @param f the float negate
  * @return the absolute value of the float
  */
-[[nodiscard]] constexpr f64 fastAbs(const f64& f) { return asFloat(asInt(f) & nnegZero64); }
+[[nodiscard]] constexpr f64 abs(const f64& f) { return asFloat(asInt(f) & nnegZero64); }
 
 /**
  * @brief Fast approximate logarithm base 2.
@@ -105,7 +111,7 @@ constexpr u64 nnegZero64= ~negZero64;///< mask of the 64 bits except sign bit
  * @param f The input value.
  * @return The approximate log2.
  */
-[[nodiscard]] constexpr f32 log2(const f32& f) { return f32(asInt(f) - oneAsInt32) * ScaleDown32; }
+[[nodiscard]] constexpr f32 log2(const f32& f) { return f32((s32)asInt(f) - (s32)oneAsInt32) * ScaleDown32; }
 
 /**
  * @brief Fast approximation of the power of 2.
@@ -118,6 +124,30 @@ constexpr u64 nnegZero64= ~negZero64;///< mask of the 64 bits except sign bit
  * @return The approximate exp2.
  */
 [[nodiscard]] constexpr f32 exp2(const f32& f) { return asFloat(s32(f * ScaleUp32) + oneAsInt32); }
+/**
+ * @brief Fast approximate logarithm base 2.
+ *
+ * Works for positive values of f, for negative value, the behavior is undefined.
+ *
+ * The absolute error is between 0.0 and -0.04 for any positive input value.
+ *
+ * @param f The input value.
+ * @return The approximate log2.
+ */
+[[nodiscard]] constexpr f64 log2(const f64& f) { return f64((s64)asInt(f) - (s64)oneAsInt64) * ScaleDown64; }
+
+/**
+ * @brief Fast approximation of the power of 2.
+ *
+ * Works for values between -120 & 120, else the result is overflowing 32bits float and behavior is undefined.
+ *
+ * Relative error is between 0.0 and -0.04 for any value in non-overflowing range.
+ *
+ * @param f The input value.
+ * @return The approximate exp2.
+ */
+[[nodiscard]] constexpr f64 exp2(const f64& f) { return asFloat(s64(f * ScaleUp64) + oneAsInt64); }
+
 [[nodiscard]] constexpr f32 pow(const f32& f, const f32& p) { return asFloat(s32(p * (asInt(f) - oneAsInt32)) + oneAsInt32); }
 
 }
