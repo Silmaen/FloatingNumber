@@ -1,45 +1,41 @@
 /**
-* \file FloatType.h
 *
-* \date 11/10/2021
+* \date 12/10/2021
 * \author Silmaen
 */
 
 #pragma once
 #include "baseType.h"
 #include <bitset>
-/**
- * @namespace fln::object
- * @brief set of function based on a float object that allow bit manipulation
- */
+
 namespace fln::object {
 /**
  * @brief set of 32 constant and magic numbers
  */
-namespace const32 {
-using baseFloat               = f32;                              ///< base internal type of float
-using baseBits                = u32;                              ///< base internal type of bits
+namespace const64 {
+using baseFloat               = f64;                              ///< base internal type of float
+using baseBits                = u64;                              ///< base internal type of bits
 constexpr baseBits one        = 1U;                               ///< one
-constexpr baseBits mantBitNum = 23U;                              ///< number of bit in the mantissa (see IEEE 754)
-constexpr baseBits expoBitNum = 8U;                               ///< number of bits in the exponent (see IEEE 754)
-constexpr baseBits signMask   = 0x80000000;                       ///< bit mask for the sign
-constexpr baseBits expoMask   = 0x7F800000;                       ///< bit mask for the exponent
-constexpr baseBits mantMask   = 0x007FFFFF;                       ///< bitmask for the mantissa
+constexpr baseBits mantBitNum = 52U;                              ///< number of bit in the mantissa (see IEEE 754)
+constexpr baseBits expoBitNum = 11U;                              ///< number of bits in the exponent (see IEEE 754)
+constexpr baseBits signMask   = 0x8000000000000000;               ///< bit mask for the sign
+constexpr baseBits expoMask   = 0x7FF0000000000000;               ///< bit mask for the exponent
+constexpr baseBits mantMask   = 0x000FFFFFFFFFFFFF;               ///< bitmask for the mantissa
 constexpr baseBits expoBias   = (one << (expoBitNum - one)) - one;///< bias of exponent (see IEEE 754)
 constexpr baseBits notSign    = ~signMask;                        ///< bit mask for all except the sign
 constexpr baseBits notExpo    = ~expoMask;                        ///< bit mask for all except the exponent
 constexpr baseBits notMant    = ~mantMask;                        ///< bitmask for all except the mantissa
 constexpr baseBits fullExpo   = expoMask >> mantBitNum;           ///< exponent fully filled
 constexpr baseBits implicitBit= one << mantBitNum;                ///< the implicit mantissa bit
-}// namespace const32
+}// namespace const64
 /**
  * @brief class to better handle float and their bits
  *
  * this class is not designed for performance
  */
-struct BitFloat {
-    using baseFloat= const32::baseFloat;///< base internal type of float
-    using baseBits = const32::baseBits; ///< base internal type of bits
+struct BitDouble {
+    using baseFloat= const64::baseFloat;///< base internal type of float
+    using baseBits = const64::baseBits; ///< base internal type of bits
 
     // ------------------------------------------------------------------------
     // constructor and assignations
@@ -47,55 +43,55 @@ struct BitFloat {
     /**
      * @brief Default constructor.
      */
-    BitFloat()= default;
+    BitDouble()= default;
     /**
      * @brief Default copy constructor.
      */
-    BitFloat(const BitFloat&)= default;
+    BitDouble(const BitDouble&)= default;
     /**
      * @brief Default move constructor.
      */
-    BitFloat(BitFloat&&) noexcept= default;
+    BitDouble(BitDouble&&) noexcept= default;
     /**
      * @brief Constructor based on a float.
      * @param a The input float.
      */
-    explicit BitFloat(const baseFloat& a):
+    explicit BitDouble(const baseFloat& a):
         data{a} {}
     /**
      * @brief Constructor copy based on float.
      * @param a The input float.
      */
-    explicit BitFloat(baseFloat&& a):
+    explicit BitDouble(baseFloat&& a):
         data{a} {}
     /**
      * @brief Constructor based on bits.
      * @param a The input bits.
      */
-    explicit BitFloat(const baseBits& a) { data.i= a; }
+    explicit BitDouble(const baseBits& a) { data.i= a; }
     /**
      * @brief Constructor copy based on bits.
      * @param a The input bits.
      */
-    explicit BitFloat(baseBits&& a) { data.i= a; }
+    explicit BitDouble(baseBits&& a) { data.i= a; }
     /**
      * @brief Default assignation operator.
-     * @param a The other BitFloat.
+     * @param a The other BitDouble.
      * @return this
      */
-    BitFloat& operator=(const BitFloat& a)= default;
+    BitDouble& operator=(const BitDouble& a)= default;
     /**
      * @brief Default assignation operator.
-     * @param a The other BitFloat.
+     * @param a The other BitDouble.
      * @return this
      */
-    BitFloat& operator=(BitFloat&& a) noexcept= default;
+    BitDouble& operator=(BitDouble&& a) noexcept= default;
     /**
      * @brief Assignation operator based on a float.
      * @param a The other Float.
      * @return this
      */
-    BitFloat& operator=(const baseFloat& a) {
+    BitDouble& operator=(const baseFloat& a) {
         data.f= a;
         return *this;
     }
@@ -104,7 +100,7 @@ struct BitFloat {
      * @param a The other Float.
      * @return this
      */
-    BitFloat& operator=(baseFloat&& a) {
+    BitDouble& operator=(baseFloat&& a) {
         data.f= a;
         return *this;
     }
@@ -113,7 +109,7 @@ struct BitFloat {
      * @param a The other bits.
      * @return this
      */
-    BitFloat& operator=(const baseBits& a) {
+    BitDouble& operator=(const baseBits& a) {
         data.i= a;
         return *this;
     }
@@ -122,7 +118,7 @@ struct BitFloat {
      * @param a The other bits.
      * @return this
      */
-    BitFloat& operator=(baseBits&& a) {
+    BitDouble& operator=(baseBits&& a) {
         data.i= a;
         return *this;
     }
@@ -131,40 +127,40 @@ struct BitFloat {
     // ------------------------------------------------------------------------
     /**
      * @brief Comparison operator equality.
-     * @param o The BitFloat to compare.
+     * @param o The BitDouble to compare.
      * @return true if equality
      */
-    [[nodiscard]] bool operator==(const BitFloat& o) { return data.f == o.data.f; }
+    [[nodiscard]] bool operator==(const BitDouble& o) { return data.f == o.data.f; }
     /**
      * @brief Comparison operator inequality.
-     * @param o The BitFloat to compare.
+     * @param o The BitDouble to compare.
      * @return true if not equality
      */
-    [[nodiscard]] bool operator!=(const BitFloat& o) { return data.f != o.data.f; }
+    [[nodiscard]] bool operator!=(const BitDouble& o) { return data.f != o.data.f; }
     /**
      * @brief Comparison operator greater than.
-     * @param o The BitFloat to compare.
+     * @param o The BitDouble to compare.
      * @return true if this greater than o
      */
-    [[nodiscard]] bool operator>(const BitFloat& o) { return data.f > o.data.f; }
+    [[nodiscard]] bool operator>(const BitDouble& o) { return data.f > o.data.f; }
     /**
      * @brief Comparison operator lower than.
-     * @param o The BitFloat to compare.
+     * @param o The BitDouble to compare.
      * @return true if this lower than o
      */
-    [[nodiscard]] bool operator<(const BitFloat& o) { return data.f < o.data.f; }
+    [[nodiscard]] bool operator<(const BitDouble& o) { return data.f < o.data.f; }
     /**
      * @brief Comparison operator greater or equal than.
-     * @param o The BitFloat to compare.
+     * @param o The BitDouble to compare.
      * @return true if this greater or equal than o
      */
-    [[nodiscard]] bool operator>=(const BitFloat& o) { return data.f >= o.data.f; }
+    [[nodiscard]] bool operator>=(const BitDouble& o) { return data.f >= o.data.f; }
     /**
      * @brief Comparison operator lower or equal than.
-     * @param o The BitFloat to compare.
+     * @param o The BitDouble to compare.
      * @return true if this lower or equal than o
      */
-    [[nodiscard]] bool operator<=(const BitFloat& o) { return data.f <= o.data.f; }
+    [[nodiscard]] bool operator<=(const BitDouble& o) { return data.f <= o.data.f; }
     /**
      * @brief Comparison operator equality.
      * @param o The float to compare.
@@ -210,7 +206,7 @@ struct BitFloat {
      * @param b The other number to add.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator+=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator+=(const BitDouble& b) {
         data.f+= (b.fl());
         return *this;
     }
@@ -219,7 +215,7 @@ struct BitFloat {
      * @param b The other number to add.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator+=(const baseFloat& b) {
+    [[nodiscard]] BitDouble& operator+=(const baseFloat& b) {
         data.f+= b;
         return *this;
     }
@@ -228,8 +224,8 @@ struct BitFloat {
      * @param b The other number to add.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator+(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator+(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb+= b;
     }
     /**
@@ -237,8 +233,8 @@ struct BitFloat {
      * @param b The other number to add.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator+(const baseFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator+(const baseFloat& b) const {
+        BitDouble bb(*this);
         return bb+= b;
     }
     /**
@@ -247,14 +243,14 @@ struct BitFloat {
      * @param a The number to add.
      * @return Result
      */
-    [[nodiscard]] friend BitFloat operator+(const baseFloat& b, const BitFloat& a) { return a + b; }
+    [[nodiscard]] friend BitDouble operator+(const baseFloat& b, const BitDouble& a) { return a + b; }
 
     /**
      * @brief Self subtract.
      * @param b The other number to subtract.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator-=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator-=(const BitDouble& b) {
         data.f-= (b.fl());
         return *this;
     }
@@ -263,7 +259,7 @@ struct BitFloat {
      * @param b The other number to subtract.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator-=(const baseFloat& b) {
+    [[nodiscard]] BitDouble& operator-=(const baseFloat& b) {
         data.f-= b;
         return *this;
     }
@@ -272,8 +268,8 @@ struct BitFloat {
      * @param b The other number to subtract.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator-() const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator-() const {
+        BitDouble bb(*this);
         bb.toggleSign();
         return bb;
     }
@@ -282,8 +278,8 @@ struct BitFloat {
      * @param b The other number to subtract.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator-(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator-(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb-= b;
     }
     /**
@@ -291,8 +287,8 @@ struct BitFloat {
      * @param b The other number to subtract.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator-(const baseFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator-(const baseFloat& b) const {
+        BitDouble bb(*this);
         return bb-= b;
     }
     /**
@@ -301,14 +297,14 @@ struct BitFloat {
      * @param a The number to subtract.
      * @return Result
      */
-    [[nodiscard]] friend BitFloat operator-(const baseFloat& b, const BitFloat& a) { return -a + b; }
+    [[nodiscard]] friend BitDouble operator-(const baseFloat& b, const BitDouble& a) { return -a + b; }
 
     /**
      * @brief Self multiply.
      * @param b The other number to multiply.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator*=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator*=(const BitDouble& b) {
         data.f*= (b.fl());
         return *this;
     }
@@ -317,7 +313,7 @@ struct BitFloat {
      * @param b The other number to multiply.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator*=(const baseFloat& b) {
+    [[nodiscard]] BitDouble& operator*=(const baseFloat& b) {
         data.f*= b;
         return *this;
     }
@@ -326,8 +322,8 @@ struct BitFloat {
      * @param b The other number to multiply.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator*(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator*(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb*= b;
     }
     /**
@@ -335,8 +331,8 @@ struct BitFloat {
      * @param b The other number to multiply.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator*(const baseFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator*(const baseFloat& b) const {
+        BitDouble bb(*this);
         return bb*= b;
     }
     /**
@@ -345,14 +341,14 @@ struct BitFloat {
      * @param a The number to multiply.
      * @return Result
      */
-    [[nodiscard]] friend BitFloat operator*(const baseFloat& b, const BitFloat& a) { return a * b; }
+    [[nodiscard]] friend BitDouble operator*(const baseFloat& b, const BitDouble& a) { return a * b; }
 
     /**
      * @brief Self divide.
      * @param b The other number to divide.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator/=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator/=(const BitDouble& b) {
         data.f/= (b.fl());
         return *this;
     }
@@ -361,7 +357,7 @@ struct BitFloat {
      * @param b The other number to divide.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator/=(const baseFloat& b) {
+    [[nodiscard]] BitDouble& operator/=(const baseFloat& b) {
         data.f/= b;
         return *this;
     }
@@ -370,8 +366,8 @@ struct BitFloat {
      * @param b The other number to divide.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator/(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator/(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb/= b;
     }
     /**
@@ -379,8 +375,8 @@ struct BitFloat {
      * @param b The other number to divide.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator/(const baseFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator/(const baseFloat& b) const {
+        BitDouble bb(*this);
         return bb/= b;
     }
     /**
@@ -389,7 +385,7 @@ struct BitFloat {
      * @param a The number to divide.
      * @return Result
      */
-    [[nodiscard]] friend BitFloat operator/(const baseFloat& b, const BitFloat& a) { return BitFloat(b / a.fl()); }
+    [[nodiscard]] friend BitDouble operator/(const baseFloat& b, const BitDouble& a) { return BitDouble(b / a.fl()); }
 
     // ------------------------------------------------------------------------
     // bit shift operators
@@ -399,7 +395,7 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator<<=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator<<=(const BitDouble& b) {
         data.i<<= (b.bits());
         return *this;
     }
@@ -408,7 +404,7 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator<<=(const baseBits& b) {
+    [[nodiscard]] BitDouble& operator<<=(const baseBits& b) {
         data.i<<= b;
         return *this;
     }
@@ -417,8 +413,8 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitFloat operator<<(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator<<(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb<<= b;
     }
     /**
@@ -426,8 +422,8 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitFloat operator<<(const baseBits& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator<<(const baseBits& b) const {
+        BitDouble bb(*this);
         return bb<<= b;
     }
     /**
@@ -435,7 +431,7 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator>>=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator>>=(const BitDouble& b) {
         data.i>>= (b.bits());
         return *this;
     }
@@ -445,7 +441,7 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator>>=(const baseBits& b) {
+    [[nodiscard]] BitDouble& operator>>=(const baseBits& b) {
         data.i>>= b;
         return *this;
     }
@@ -454,8 +450,8 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitFloat operator>>(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator>>(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb>>= b;
     }
     /**
@@ -463,8 +459,8 @@ struct BitFloat {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitFloat operator>>(const baseBits& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator>>(const baseBits& b) const {
+        BitDouble bb(*this);
         return bb>>= b;
     }
     // ------------------------------------------------------------------------
@@ -475,7 +471,7 @@ struct BitFloat {
      * @param b The bits to add.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator&=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator&=(const BitDouble& b) {
         data.i&= (b.bits());
         return *this;
     }
@@ -484,7 +480,7 @@ struct BitFloat {
      * @param b The bits to add.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator&=(const baseBits& b) {
+    [[nodiscard]] BitDouble& operator&=(const baseBits& b) {
         data.i&= b;
         return *this;
     }
@@ -493,8 +489,8 @@ struct BitFloat {
      * @param b The bits to add.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator&(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator&(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb&= b;
     }
     /**
@@ -502,8 +498,8 @@ struct BitFloat {
      * @param b The bits to add.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator&(const baseBits& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator&(const baseBits& b) const {
+        BitDouble bb(*this);
         return bb&= b;
     }
     /**
@@ -511,7 +507,7 @@ struct BitFloat {
      * @param b The bits to or.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator|=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator|=(const BitDouble& b) {
         data.i|= (b.bits());
         return *this;
     }
@@ -520,7 +516,7 @@ struct BitFloat {
      * @param b The bits to or.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator|=(const baseBits& b) {
+    [[nodiscard]] BitDouble& operator|=(const baseBits& b) {
         data.i|= b;
         return *this;
     }
@@ -529,8 +525,8 @@ struct BitFloat {
      * @param b The bits to or.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator|(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator|(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb|= b;
     }
     /**
@@ -538,8 +534,8 @@ struct BitFloat {
      * @param b The bits to or.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator|(const baseBits& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator|(const baseBits& b) const {
+        BitDouble bb(*this);
         return bb|= b;
     }
     /**
@@ -547,7 +543,7 @@ struct BitFloat {
      * @param b The bits to xor.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator^=(const BitFloat& b) {
+    [[nodiscard]] BitDouble& operator^=(const BitDouble& b) {
         data.i^= (b.bits());
         return *this;
     }
@@ -556,7 +552,7 @@ struct BitFloat {
      * @param b The bits to xor.
      * @return this
      */
-    [[nodiscard]] BitFloat& operator^=(const baseBits& b) {
+    [[nodiscard]] BitDouble& operator^=(const baseBits& b) {
         data.i^= b;
         return *this;
     }
@@ -565,8 +561,8 @@ struct BitFloat {
      * @param b The bits to xor.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator^(const BitFloat& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator^(const BitDouble& b) const {
+        BitDouble bb(*this);
         return bb^= b;
     }
     /**
@@ -574,8 +570,8 @@ struct BitFloat {
      * @param b The bits to xor.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator^(const baseBits& b) const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator^(const baseBits& b) const {
+        BitDouble bb(*this);
         return bb^= b;
     }
     /**
@@ -583,8 +579,8 @@ struct BitFloat {
      * @param b The bits to not.
      * @return Result
      */
-    [[nodiscard]] BitFloat operator~() const {
-        BitFloat bb(*this);
+    [[nodiscard]] BitDouble operator~() const {
+        BitDouble bb(*this);
         bb.bits()= ~bb.bits();
         return bb;
     }
@@ -597,31 +593,31 @@ struct BitFloat {
      * @brief Get the value of the bit sign
      * @return true if negative.
      */
-    [[nodiscard]] bool sign() const { return (data.i & const32::signMask) != 0; }
+    [[nodiscard]] bool sign() const { return (data.i & const64::signMask) != 0; }
     /**
      * @brief define the sign of the float
      * @param s the new sign
      */
-    void setSign(bool s) { data.i= (data.i & const32::notSign) | (s * const32::signMask); }
+    void setSign(bool s) { data.i= (data.i & const64::notSign) | (s * const64::signMask); }
     /**
      * @brief change the sign of the float
      */
-    void toggleSign() { data.i^= const32::signMask; }
+    void toggleSign() { data.i^= const64::signMask; }
 
     // the exponent bits
     /**
      * @brief Get the bits representing the exponent.
      * @return The exponent bits.
      */
-    [[nodiscard]] u8 exponentRaw() const { return (data.i & const32::expoMask) >> const32::mantBitNum; }
+    [[nodiscard]] u16 exponentRaw() const { return (data.i & const64::expoMask) >> const64::mantBitNum; }
     /**
      * @brief get the exponent bits as a string.
      * @return String with bit representation.
      */
     [[nodiscard]] std::string exponentRawBits() const {
         std::string a;
-        for(u8 i= 0; i < const32::expoBitNum; ++i) {
-            baseBits bitMask= const32::one << (const32::expoBitNum + const32::mantBitNum - const32::one - i);
+        for(u8 i= 0; i < const64::expoBitNum; ++i) {
+            baseBits bitMask= const64::one << (const64::expoBitNum + const64::mantBitNum - const64::one - i);
             a+= ((data.i & bitMask) == bitMask) ? "1" : "0";
         }
         return a;
@@ -630,32 +626,32 @@ struct BitFloat {
      * @brief Get The value of the exponent unbiased
      * @return unbiased value of the exponent
      */
-    [[nodiscard]] s8 exponent() const { return exponentRaw() - const32::expoBias; }
+    [[nodiscard]] s16 exponent() const { return exponentRaw() - const64::expoBias; }
     /**
      * @brief Define the exponent bits
      * @param exp the new exponent bits
      */
-    void setExponentRaw(const u8& exp) { data.i= (data.i & const32::notExpo) | (baseBits(exp) << const32::mantBitNum); }
+    void setExponentRaw(const baseBits& exp) { data.i= (data.i & const64::notExpo) | ((exp << const64::mantBitNum) & const64::expoMask); }
     /**
      * @brief Define the unbiased exponent.
      * @param exp unbiased exponent
      */
-    void setExponent(const s8& exp) { setExponentRaw(exp + const32::expoBias); }
+    void setExponent(const s16& exp) { setExponentRaw(exp + const64::expoBias); }
 
     // the mantissa bits
     /**
      * @brief Get raw bits of the mantissa.
      * @return The raw bits of the mantissa.
      */
-    [[nodiscard]] baseBits mantissaRaw() const { return (data.i & const32::mantMask); }
+    [[nodiscard]] baseBits mantissaRaw() const { return (data.i & const64::mantMask); }
     /**
      * @brief Get raw bits of the mantissa as string.
      * @return String with mantissa's bits.
      */
     [[nodiscard]] std::string mantissaRawBits() const {
         std::string a;
-        for(u8 i= 0; i < const32::mantBitNum; ++i) {
-            baseBits bitMask= const32::one << (const32::mantBitNum - const32::one - i);
+        for(u8 i= 0; i < const64::mantBitNum; ++i) {
+            baseBits bitMask= const64::one << (const64::mantBitNum - const64::one - i);
             a+= ((data.i & bitMask) == bitMask) ? "1" : "0";
         }
         return a;
@@ -664,12 +660,12 @@ struct BitFloat {
      * @brief Get bits of the mantissa with the implicit one.
      * @return The bits of the mantissa.
      */
-    [[nodiscard]] baseBits mantissa() const { return (data.i & const32::mantMask) | const32::implicitBit; }
+    [[nodiscard]] baseBits mantissa() const { return (data.i & const64::mantMask) | const64::implicitBit; }
     /**
      * @brief Set raw bits of the mantissa.
      * @param m The bits of the mantissa.
      */
-    void setMantissaRaw(const baseBits& m) { data.i= (data.i & const32::notMant) | (m & const32::mantMask); }
+    void setMantissaRaw(const baseBits& m) { data.i= (data.i & const64::notMant) | (m & const64::mantMask); }
 
     /**
      * @brief Get a string representation of all bits.
@@ -677,7 +673,7 @@ struct BitFloat {
      */
     [[nodiscard]] std::string rawBits() const {
         std::stringstream oss;
-        oss << "[" << std::bitset<const32::one>(sign()) << "][" << std::bitset<const32::expoBitNum>(exponentRaw()) << "][" << std::bitset<const32::mantBitNum>(mantissaRaw()) << "]";
+        oss << "[" << std::bitset<const64::one>(sign()) << "][" << std::bitset<const64::expoBitNum>(exponentRaw()) << "][" << std::bitset<const64::mantBitNum>(mantissaRaw()) << "]";
         return oss.str();
     }
 
@@ -730,21 +726,21 @@ struct BitFloat {
      * @return true if the float is not a normalized one.
      */
     [[nodiscard]] bool isDenormalized() const {
-        return (exponentRaw() == 0 && mantissaRaw() != 0) || exponentRaw() == const32::fullExpo;
+        return (exponentRaw() == 0 && mantissaRaw() != 0) || exponentRaw() == const64::fullExpo;
     }
     /**
      * @brief Determine if a float is an infinite representation.
      * @return true if the float is an infinite representation.
      */
     [[nodiscard]] bool isInfinite() const {
-        return ((data.i & const32::expoMask) == const32::expoMask) && ((data.i & const32::mantMask) == 0);
+        return ((data.i & const64::expoMask) == const64::expoMask) && ((data.i & const64::mantMask) == 0);
     }
     /**
      * @brief Determine if a float is not a number.
      * @return true if the float is not a number.
      */
     [[nodiscard]] bool isNaN() const {
-        return ((data.i & const32::expoMask) == const32::expoMask) && ((data.i & const32::mantMask) != 0);
+        return ((data.i & const64::expoMask) == const64::expoMask) && ((data.i & const64::mantMask) != 0);
     }
 
 private:

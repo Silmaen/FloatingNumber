@@ -53,7 +53,7 @@ TEST(float_functions, exp2){
     EXPECT_LT(mean, 0.05);
     EXPECT_LT(stdev, 0.05);
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "average absolute error of internal log 2: " << mean << " standard deviation: " << stdev << std::endl;
+    std::cout << "average relative error of internal log 2: " << mean << " standard deviation: " << stdev << std::endl;
     std::cout << "---=== END EXP2 ===---" << std::endl;
 #endif
 }

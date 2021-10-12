@@ -6,6 +6,14 @@
 #include "FloatType.h"
 
 namespace fln::object {
+/**
+ * @brief set of 32 constant and magic numbers
+ */
+namespace const32 {
+constexpr baseBits oneAsInt  = 0x3f800000;        ///< bit representation of the float 1.0
+constexpr baseFloat scaleUp  = float(implicitBit);///< Scaling bit_asFloat to Int
+constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Float
+}// namespace const32
 
 /**
  * @brief Fast approximate logarithm base 2.
@@ -48,5 +56,4 @@ namespace fln::object {
     return a.getFloat();
 }
 
-
-}
+}// namespace fln::object

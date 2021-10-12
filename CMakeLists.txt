@@ -45,6 +45,9 @@ else()
     message( FATAL_ERROR "Unsupported Compiler '${CMAKE_CXX_COMPILER_ID}'" )
 endif()
 
+if (FLN_VERBOSE_TEST)
+    add_compile_definitions(FLN_VERBOSE_TEST)
+endif()
 
 # build modes
 if (FLN_BUILD_TYPE MATCHES "PROFILING")

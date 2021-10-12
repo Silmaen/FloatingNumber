@@ -2,7 +2,7 @@
 
 #define IDEBUG
 #include "baseDefines.h"
-#include "FloatFunctions.h"
+#include "FloatType.h"
 
 using namespace fln::object;
 
@@ -45,14 +45,15 @@ TEST(BitFloat, ElementManipulation){
     f.setExponent(11);
     EXPECT_EQ(f.exponent(),11);
     EXPECT_EQ(f.exponentRaw(),0b10001010);
-    EXPECT_TRUE(f==-1789.523f*2.f);
+    BitFloat ff(-1789.523f*2.0f);
+    EXPECT_TRUE(f==ff);
+    f.setExponent(10);
 
     // mantissa manipulation
     EXPECT_EQ(f.mantissaRaw(), 0b10111111011000010111100);
     EXPECT_EQ(f.mantissa(), 0b110111111011000010111100);
-    f.setMantissaRaw(0b10111111011001010111100U);
-    EXPECT_EQ(f.mantissaRaw(), 0b10111111011001010111100U);
-    EXPECT_TRUE(f==-3579.171f);
+    f.setMantissaRaw(0b10111111011010010111100);
+    EXPECT_EQ(f.fl(), -(1789.523f+0.125f));
 }
 
 TEST(BitFloat, Normalization){
