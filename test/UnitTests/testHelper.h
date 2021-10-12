@@ -6,9 +6,10 @@
 #include "Timing.h"
 #include <gtest/gtest.h>
 
+#ifdef FLN_VERBOSE_TEST
 #define CHRONOMETER_DURATION(F, VAR_INIT, F_NAME, TIMEOUT, EXPECTED_NUM)                                                       \
     {                                                                                                                          \
-        fln::Timer time;                                                                                                       \
+        fln::time::Timer time;                                                                                                 \
         static fln::u64 counter= 0;                                                                                            \
         VAR_INIT;                                                                                                              \
         time.startTimer(TIMEOUT);                                                                                              \
@@ -18,7 +19,7 @@
                 ++counter;                                                                                                     \
                 if(counter % 50) time.timeCheck();                                                                             \
             }                                                                                                                  \
-        } catch(fln::TimeoutException&) {                                                                                      \
+        } catch(fln::time::TimeoutException&) {                                                                                \
             if(!std::string(F_NAME).empty()) {                                                                                 \
                 std::cout << "function " << (F_NAME) << " number: " << counter;                                                \
                 std::cout << " ||| ns/iter: " << (time.currentTimeTakenInNanoSeconds().count() / (float)counter) << std::endl; \
@@ -29,7 +30,7 @@
 
 #define CHRONOMETER_ITERATION(F, VAR_INIT, F_NAME, ITERATION_NUMBER, EXPECT_MEAN_NANO)                                     \
     {                                                                                                                      \
-        fln::Timer time;                                                                                                   \
+        fln::time::Timer time;                                                                                             \
         static fln::u64 counter= 0;                                                                                        \
         VAR_INIT;                                                                                                          \
         time.startTimer();                                                                                                 \
@@ -43,3 +44,33 @@
         }                                                                                                                  \
         EXPECT_LT(time.currentTimeTakenInNanoSeconds().count() / (float)counter, EXPECT_MEAN_NANO);                        \
     }
+#else
+#define CHRONOMETER_DURATION(F, VAR_INIT, F_NAME, TIMEOUT, EXPECTED_NUM) \
+    {                                                                    \
+        fln::time::Timer time;                                           \
+        static fln::u64 counter= 0;                                      \
+        VAR_INIT;                                                        \
+        time.startTimer(TIMEOUT);                                        \
+        try {                                                            \
+            while(true) {                                                \
+                F;                                                       \
+                ++counter;                                               \
+                if(counter % 50) time.timeCheck();                       \
+            }                                                            \
+        } catch(fln::time::TimeoutException&) {}                         \
+        EXPECT_GT(counter, EXPECTED_NUM);                                \
+    }
+
+#define CHRONOMETER_ITERATION(F, VAR_INIT, F_NAME, ITERATION_NUMBER, EXPECT_MEAN_NANO)              \
+    {                                                                                               \
+        fln::time::Timer time;                                                                      \
+        static fln::u64 counter= 0;                                                                 \
+        VAR_INIT;                                                                                   \
+        time.startTimer();                                                                          \
+        for(; counter < (ITERATION_NUMBER); ++counter) {                                            \
+            F;                                                                                      \
+        }                                                                                           \
+        time.stopTimer();                                                                           \
+        EXPECT_LT(time.currentTimeTakenInNanoSeconds().count() / (float)counter, EXPECT_MEAN_NANO); \
+    }
+#endif

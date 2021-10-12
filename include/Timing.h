@@ -7,7 +7,11 @@
 #include "baseDefines.h"
 #include "baseType.h"
 
-namespace fln {
+/**
+ * namespace fln::time
+ * @brief time management
+ */
+namespace fln::time {
 /**
  * @brief Timeout exception
  */

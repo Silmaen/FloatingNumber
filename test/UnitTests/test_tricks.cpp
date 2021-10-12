@@ -4,7 +4,7 @@
 #include <baseFunctions.h>
 #include "trickFunctions.h"
 #include "testHelper.h"
-
+/*
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 
@@ -89,6 +89,6 @@ TEST(fln_trick,sqrt_measure){
     CHRONOMETER_ITERATION(c=fln::fastSqrt3(a),fln::f32 c; fln::f32 a=9, "fastSqrt3  ", 5000000, 50.0)
     CHRONOMETER_ITERATION(c=fln::fasterSqrt(a),fln::f32 c; fln::f32 a=9,"fasterSqrt ", 5000000, 50.0)
 }
-
+*/
 
 #pragma GCC diagnostic pop
