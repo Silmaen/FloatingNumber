@@ -15,14 +15,17 @@ namespace ternary {
 // SIGN
 [[nodiscard]] constexpr s32 sign(const s32& x) { return (x < 0 ? -1 : ((x > 0) ? 1 : 0)); }
 [[nodiscard]] constexpr f32 sign(const f32& x) { return (x < 0 ? -1.0f : ((x > 0) ? 1.0f : 0.0f)); }
+[[nodiscard]] constexpr f64 sign(const f64& x) { return (x < 0 ? -1.0f : ((x > 0) ? 1.0f : 0.0f)); }
 
 // ABS
 [[nodiscard]] constexpr s64 abs(const s64& x) { return (x < 0 ? -x : x); }
 [[nodiscard]] constexpr f32 abs(const f32& x) { return (x < 0 ? -x : x); }
+[[nodiscard]] constexpr f64 abs(const f64& x) { return (x < 0 ? -x : x); }
 
 // CLAMP
 [[nodiscard]] constexpr s32 clamp(const s32& x, const s32& a, const s32& b) { return ((x < a) ? a : ((x > b) ? b : x)); }
 [[nodiscard]] constexpr f32 clamp(const f32& x, const f32& a, const f32& b) { return ((x < a) ? a : ((x > b) ? b : x)); }
+[[nodiscard]] constexpr f64 clamp(const f64& x, const f64& a, const f64& b) { return ((x < a) ? a : ((x > b) ? b : x)); }
 
 //MIN
 [[nodiscard]] constexpr u8 min(const u8& a, const u8& b) { return ((a > b) ? b : a); }
@@ -32,6 +35,7 @@ namespace ternary {
 [[nodiscard]] constexpr s32 min(const s32& a, const s32& b) { return ((a > b) ? b : a); }
 [[nodiscard]] constexpr s64 min(const s64& a, const s64& b) { return ((a > b) ? b : a); }
 [[nodiscard]] constexpr f32 min(const f32& a, const f32& b) { return ((a > b) ? b : a); }
+[[nodiscard]] constexpr f64 min(const f64& a, const f64& b) { return ((a > b) ? b : a); }
 //MAX
 [[nodiscard]] constexpr u8 max(const u8& a, const u8& b) { return ((a > b) ? a : b); }
 [[nodiscard]] constexpr u16 max(const u16& a, const u16& b) { return ((a > b) ? a : b); }
@@ -40,6 +44,7 @@ namespace ternary {
 [[nodiscard]] constexpr s32 max(const s32& a, const s32& b) { return ((a > b) ? a : b); }
 [[nodiscard]] constexpr s64 max(const s64& a, const s64& b) { return ((a > b) ? a : b); }
 [[nodiscard]] constexpr f32 max(const f32& a, const f32& b) { return ((a > b) ? a : b); }
+[[nodiscard]] constexpr f64 max(const f64& a, const f64& b) { return ((a > b) ? a : b); }
 }// namespace ternary
 
 /**

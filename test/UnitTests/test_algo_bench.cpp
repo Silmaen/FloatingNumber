@@ -47,4 +47,21 @@ TEST(algo_benchmark, exp2){
 #endif
 }
 
+TEST(algo_benchmark, pow){
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "---=== BENCHMARK EXP2 ===---" << std::endl;
+    std::cout << "log2 performance review" << std::endl;
+#endif
+    CHRONOMETER_ITERATION(std::pow(150.0,1.25),                                            ,"std::pow         (dbl)",1000000,5)
+    CHRONOMETER_ITERATION(fln::object::pow(f,p),fln::object::BitDouble f(150.0);fln::object::BitDouble p(1.25),"fln::object::pow (dbl)",1000000,15)
+    CHRONOMETER_ITERATION(fln::bithack::pow(150.0,1.25),                                   ,"fln::bithack::pow(dbl)",1000000,10)
+    CHRONOMETER_DURATION(,,"",1,1); // warmup
+    CHRONOMETER_ITERATION(std::pow(150.0f,1.25f),                                           ,"std::pow              ",1000000,300)
+    CHRONOMETER_ITERATION(fln::object::pow(f,p),fln::object::BitFloat f(150.0f);fln::object::BitFloat p(1.25f),"fln::object::pow      ",1000000,15)
+    CHRONOMETER_ITERATION(fln::bithack::pow(150.0f,1.25f),                                  ,"fln::bithack::pow     ",1000000,10)
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "---=== END EXP2 ===---" << std::endl;
+#endif
+}
+
 #pragma GCC diagnostic pop

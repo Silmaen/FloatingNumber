@@ -26,7 +26,7 @@ constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Floa
  * @return The approximate log2.
  */
 [[nodiscard]] inline BitDouble::baseFloat log2(const BitDouble& f) {
-    return BitDouble::baseFloat((s64)f.bits() - (s32)const64::oneAsInt) * const64::scaleDown;
+    return BitDouble::baseFloat((s64)f.bits() - (s64)const64::oneAsInt) * const64::scaleDown;
 }
 /**
  * @brief Fast approximate logarithm base 2 of the absolute value.
@@ -53,7 +53,19 @@ constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Floa
 [[nodiscard]] inline BitDouble::baseFloat exp2(const BitDouble& f) {
     BitDouble a;
     a.bits()= (s64)(f.fl() * const64::scaleUp) + (s64)const64::oneAsInt;
-    return a.getFloat();
+    return a.fl();
 }
+/**
+* @brief compute the power p of float f
+* @param f the base
+* @param p the exponent
+* @return f^p
+*/
+[[nodiscard]] inline BitDouble::baseFloat pow(const BitDouble& f, const BitDouble& p) {
+    BitDouble a;
+    a.bits()= (s64(p.fl() * ((s64)f.bits() - (s64)const64::oneAsInt)) + const64::oneAsInt);
+    return a.fl();
+}
+
 
 }// namespace fln::object

@@ -55,5 +55,16 @@ constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Floa
     a.bits()= (s32)(f.fl() * const32::scaleUp) + (s32)const32::oneAsInt;
     return a.getFloat();
 }
+/**
+ * @brief compute the power p of float f
+ * @param f the base
+ * @param p the exponent
+ * @return f^p
+ */
+[[nodiscard]] inline BitFloat::baseFloat pow(const BitFloat& f, const BitFloat& p) {
+    BitFloat a;
+    a.bits()= (s32(p.fl() * ((s32)f.bits() - (s32)const32::oneAsInt)) + const32::oneAsInt);
+    return a.fl();
+}
 
 }// namespace fln::object

@@ -124,4 +124,56 @@ TEST(bithack_functions,exp2_double) {
 #endif
 }
 
+TEST(bithack_functions,pow_float) {
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "---=== TESTING BITHACK POW ===---" << std::endl;
+#endif
+    std::vector<std::pair<fln::f32,fln::f32> > numbers ={};
+    for (fln::f32 i=1;i<100.0;i+=7.6345){
+        for (fln::f32 j=-5.0;j<5.0;j+=0.4) {
+            numbers.emplace_back(i, j);
+        }
+    }
+    std::vector<fln::f32> errors ={};
+    for (auto& n:numbers){
+        EXPECT_NEAR(std::pow(n.first,n.second), fln::bithack::pow(n.first,n.second), fln::ternary::max(0.001,0.5*std::pow(n.first,n.second)));
+        errors.push_back((fln::bithack::pow(n.first,n.second) - std::pow(n.first,n.second))/std::pow(n.first,n.second));
+    }
+    fln::f32 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
+    fln::f32 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
+    fln::f32 stdev = std::sqrt(sq_sum / errors.size() - mean * mean);
+    EXPECT_LT(mean, 0.05);
+    EXPECT_LT(stdev, 0.13);
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "average relative error of bithack pow: " << mean << " standard deviation: " << stdev << std::endl;
+    std::cout << "---=== END BITHACK POW ===---" << std::endl;
+#endif
+}
+
+TEST(bithack_functions,pow_double) {
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "---=== TESTING BITHACK POW (double) ===---" << std::endl;
+#endif
+    std::vector<std::pair<fln::f64,fln::f64> > numbers ={};
+    for (fln::f64 i=1;i<100.0;i+=7.6345){
+        for (fln::f64 j=-5.0;j<5.0;j+=0.4) {
+            numbers.emplace_back(i, j);
+        }
+    }
+    std::vector<fln::f64> errors ={};
+    for (auto& n:numbers){
+        EXPECT_NEAR(std::pow(n.first,n.second), fln::bithack::pow(n.first,n.second), fln::ternary::max(0.001,0.5*std::pow(n.first,n.second)));
+        errors.push_back((fln::bithack::pow(n.first,n.second) - std::pow(n.first,n.second))/std::pow(n.first,n.second));
+    }
+    fln::f64 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f64>(errors.size());
+    fln::f64 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
+    fln::f64 stdev = std::sqrt(sq_sum / errors.size() - mean * mean);
+    EXPECT_LT(mean, 0.05);
+    EXPECT_LT(stdev, 0.15);
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "average relative error of bithack pow (double): " << mean << " standard deviation: " << stdev << std::endl;
+    std::cout << "---=== END BITHACK POW (double) ===---" << std::endl;
+#endif
+}
+
 #pragma GCC diagnostic pop

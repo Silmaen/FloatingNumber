@@ -148,8 +148,21 @@ constexpr u64 nnegZero64= ~negZero64;///< mask of the 64 bits except sign bit
  */
 [[nodiscard]] constexpr f64 exp2(const f64& f) { return asFloat(s64(f * ScaleUp64) + oneAsInt64); }
 
-[[nodiscard]] constexpr f32 pow(const f32& f, const f32& p) { return asFloat(s32(p * (asInt(f) - oneAsInt32)) + oneAsInt32); }
+/**
+ * @brief compute the power p of float f
+ * @param f the base
+ * @param p the exponent
+ * @return f^p
+ */
+[[nodiscard]] constexpr f32 pow(const f32& f, const f32& p) { return asFloat(s32(p * ((s32)asInt(f) - (s32)oneAsInt32)) + oneAsInt32); }
 
+/**
+ * @brief compute the power p of float f
+ * @param f the base
+ * @param p the exponent
+ * @return f^p
+ */
+[[nodiscard]] constexpr f64 pow(const f64& f, const f64& p) { return asFloat(s64(p * ((s64)asInt(f) - (s64)oneAsInt64)) + oneAsInt64); }
 }
 
 // ---=== SQRT 32 ===---

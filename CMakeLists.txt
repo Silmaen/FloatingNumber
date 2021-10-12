@@ -90,9 +90,6 @@ find_package(Doxygen
         REQUIRED dot)
 if (DOXYGEN_FOUND)
     message(STATUS "found doxygen version: ${DOXYGEN_VERSION}")
-
-    message("Doxygen build started ${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxyfile")
-
     add_custom_target(documentation
             COMMAND ${DOXYGEN_EXECUTABLE}
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
