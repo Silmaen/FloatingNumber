@@ -43,55 +43,55 @@ struct BitDouble {
     /**
      * @brief Default constructor.
      */
-    BitDouble()= default;
+    constexpr BitDouble() noexcept= default;
     /**
      * @brief Default copy constructor.
      */
-    BitDouble(const BitDouble&)= default;
+    constexpr BitDouble(const BitDouble&) noexcept= default;
     /**
      * @brief Default move constructor.
      */
-    BitDouble(BitDouble&&) noexcept= default;
+    constexpr BitDouble(BitDouble&&) noexcept= default;
     /**
      * @brief Constructor based on a float.
      * @param a The input float.
      */
-    explicit BitDouble(const baseFloat& a):
+    explicit constexpr BitDouble(const baseFloat& a) noexcept:
         data{a} {}
     /**
      * @brief Constructor copy based on float.
      * @param a The input float.
      */
-    explicit BitDouble(baseFloat&& a):
+    explicit constexpr BitDouble(baseFloat&& a) noexcept:
         data{a} {}
     /**
      * @brief Constructor based on bits.
      * @param a The input bits.
      */
-    explicit BitDouble(const baseBits& a) { data.i= a; }
+    explicit constexpr BitDouble(const baseBits& a) noexcept { data.i= a; }
     /**
      * @brief Constructor copy based on bits.
      * @param a The input bits.
      */
-    explicit BitDouble(baseBits&& a) { data.i= a; }
+    explicit constexpr BitDouble(baseBits&& a) noexcept { data.i= a; }
     /**
      * @brief Default assignation operator.
      * @param a The other BitDouble.
      * @return this
      */
-    BitDouble& operator=(const BitDouble& a)= default;
+    constexpr BitDouble& operator=(const BitDouble& a) noexcept= default;
     /**
      * @brief Default assignation operator.
      * @param a The other BitDouble.
      * @return this
      */
-    BitDouble& operator=(BitDouble&& a) noexcept= default;
+    constexpr BitDouble& operator=(BitDouble&& a) noexcept= default;
     /**
      * @brief Assignation operator based on a float.
      * @param a The other Float.
      * @return this
      */
-    BitDouble& operator=(const baseFloat& a) {
+    constexpr BitDouble& operator=(const baseFloat& a) noexcept {
         data.f= a;
         return *this;
     }
@@ -100,7 +100,7 @@ struct BitDouble {
      * @param a The other Float.
      * @return this
      */
-    BitDouble& operator=(baseFloat&& a) {
+    constexpr BitDouble& operator=(baseFloat&& a) noexcept {
         data.f= a;
         return *this;
     }
@@ -109,7 +109,7 @@ struct BitDouble {
      * @param a The other bits.
      * @return this
      */
-    BitDouble& operator=(const baseBits& a) {
+    constexpr BitDouble& operator=(const baseBits& a) noexcept {
         data.i= a;
         return *this;
     }
@@ -118,7 +118,7 @@ struct BitDouble {
      * @param a The other bits.
      * @return this
      */
-    BitDouble& operator=(baseBits&& a) {
+    constexpr BitDouble& operator=(baseBits&& a) noexcept {
         data.i= a;
         return *this;
     }
@@ -130,73 +130,73 @@ struct BitDouble {
      * @param o The BitDouble to compare.
      * @return true if equality
      */
-    [[nodiscard]] bool operator==(const BitDouble& o) { return data.f == o.data.f; }
+    [[nodiscard]] constexpr bool operator==(const BitDouble& o)const noexcept{ return data.f == o.data.f; }
     /**
      * @brief Comparison operator inequality.
      * @param o The BitDouble to compare.
      * @return true if not equality
      */
-    [[nodiscard]] bool operator!=(const BitDouble& o) { return data.f != o.data.f; }
+    [[nodiscard]] constexpr bool operator!=(const BitDouble& o)const noexcept{ return data.f != o.data.f; }
     /**
      * @brief Comparison operator greater than.
      * @param o The BitDouble to compare.
      * @return true if this greater than o
      */
-    [[nodiscard]] bool operator>(const BitDouble& o) { return data.f > o.data.f; }
+    [[nodiscard]] constexpr bool operator>(const BitDouble& o)const noexcept{ return data.f > o.data.f; }
     /**
      * @brief Comparison operator lower than.
      * @param o The BitDouble to compare.
      * @return true if this lower than o
      */
-    [[nodiscard]] bool operator<(const BitDouble& o) { return data.f < o.data.f; }
+    [[nodiscard]] constexpr bool operator<(const BitDouble& o)const noexcept{ return data.f < o.data.f; }
     /**
      * @brief Comparison operator greater or equal than.
      * @param o The BitDouble to compare.
      * @return true if this greater or equal than o
      */
-    [[nodiscard]] bool operator>=(const BitDouble& o) { return data.f >= o.data.f; }
+    [[nodiscard]] constexpr bool operator>=(const BitDouble& o)const noexcept{ return data.f >= o.data.f; }
     /**
      * @brief Comparison operator lower or equal than.
      * @param o The BitDouble to compare.
      * @return true if this lower or equal than o
      */
-    [[nodiscard]] bool operator<=(const BitDouble& o) { return data.f <= o.data.f; }
+    [[nodiscard]] constexpr bool operator<=(const BitDouble& o)const noexcept{ return data.f <= o.data.f; }
     /**
      * @brief Comparison operator equality.
      * @param o The float to compare.
      * @return true if equality
      */
-    [[nodiscard]] bool operator==(const baseFloat& o) { return data.f == o; }
+    [[nodiscard]] constexpr bool operator==(const baseFloat& o)const noexcept{ return data.f == o; }
     /**
      * @brief Comparison operator inequality.
      * @param o The float to compare.
      * @return true if not equality
      */
-    [[nodiscard]] bool operator!=(const baseFloat& o) { return data.f != o; }
+    [[nodiscard]] constexpr bool operator!=(const baseFloat& o)const noexcept{ return data.f != o; }
     /**
      * @brief Comparison operator greater than.
      * @param o The float to compare.
      * @return true if this greater than o
      */
-    [[nodiscard]] bool operator>(const baseFloat& o) { return data.f > o; }
+    [[nodiscard]] constexpr bool operator>(const baseFloat& o)const noexcept{ return data.f > o; }
     /**
      * @brief Comparison operator lower than.
      * @param o The float to compare.
      * @return true if this lower than o
      */
-    [[nodiscard]] bool operator<(const baseFloat& o) { return data.f < o; }
+    [[nodiscard]] constexpr bool operator<(const baseFloat& o)const noexcept{ return data.f < o; }
     /**
      * @brief Comparison operator greater or equal than.
      * @param o The float to compare.
      * @return true if this greater or equal than o
      */
-    [[nodiscard]] bool operator>=(const baseFloat& o) { return data.f >= o; }
+    [[nodiscard]] constexpr bool operator>=(const baseFloat& o)const noexcept{ return data.f >= o; }
     /**
      * @brief Comparison operator lower or equal than.
      * @param o The float to compare.
      * @return true if this lower or equal than o
      */
-    [[nodiscard]] bool operator<=(const baseFloat& o) { return data.f <= o; }
+    [[nodiscard]] constexpr bool operator<=(const baseFloat& o)const noexcept{ return data.f <= o; }
 
     // ------------------------------------------------------------------------
     // arithmetic operators
@@ -206,7 +206,7 @@ struct BitDouble {
      * @param b The other number to add.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator+=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator+=(const BitDouble& b) noexcept{
         data.f+= (b.fl());
         return *this;
     }
@@ -215,7 +215,7 @@ struct BitDouble {
      * @param b The other number to add.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator+=(const baseFloat& b) {
+    [[nodiscard]] constexpr BitDouble& operator+=(const baseFloat& b) noexcept{
         data.f+= b;
         return *this;
     }
@@ -224,7 +224,7 @@ struct BitDouble {
      * @param b The other number to add.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator+(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator+(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb+= b;
     }
@@ -233,7 +233,7 @@ struct BitDouble {
      * @param b The other number to add.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator+(const baseFloat& b) const {
+    [[nodiscard]] constexpr BitDouble operator+(const baseFloat& b) const noexcept{
         BitDouble bb(*this);
         return bb+= b;
     }
@@ -243,14 +243,14 @@ struct BitDouble {
      * @param a The number to add.
      * @return Result
      */
-    [[nodiscard]] friend BitDouble operator+(const baseFloat& b, const BitDouble& a) { return a + b; }
+    [[nodiscard]] friend constexpr BitDouble operator+(const baseFloat& b, const BitDouble& a) noexcept{ return a + b; }
 
     /**
      * @brief Self subtract.
      * @param b The other number to subtract.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator-=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator-=(const BitDouble& b) noexcept{
         data.f-= (b.fl());
         return *this;
     }
@@ -259,7 +259,7 @@ struct BitDouble {
      * @param b The other number to subtract.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator-=(const baseFloat& b) {
+    [[nodiscard]] constexpr BitDouble& operator-=(const baseFloat& b) noexcept{
         data.f-= b;
         return *this;
     }
@@ -268,7 +268,7 @@ struct BitDouble {
      * @param b The other number to subtract.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator-() const {
+    [[nodiscard]] constexpr BitDouble operator-() const noexcept{
         BitDouble bb(*this);
         bb.toggleSign();
         return bb;
@@ -278,7 +278,7 @@ struct BitDouble {
      * @param b The other number to subtract.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator-(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator-(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb-= b;
     }
@@ -287,7 +287,7 @@ struct BitDouble {
      * @param b The other number to subtract.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator-(const baseFloat& b) const {
+    [[nodiscard]] constexpr BitDouble operator-(const baseFloat& b) const noexcept{
         BitDouble bb(*this);
         return bb-= b;
     }
@@ -297,14 +297,14 @@ struct BitDouble {
      * @param a The number to subtract.
      * @return Result
      */
-    [[nodiscard]] friend BitDouble operator-(const baseFloat& b, const BitDouble& a) { return -a + b; }
+    [[nodiscard]] friend constexpr BitDouble operator-(const baseFloat& b, const BitDouble& a) noexcept{ return -a + b; }
 
     /**
      * @brief Self multiply.
      * @param b The other number to multiply.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator*=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator*=(const BitDouble& b) noexcept{
         data.f*= (b.fl());
         return *this;
     }
@@ -313,7 +313,7 @@ struct BitDouble {
      * @param b The other number to multiply.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator*=(const baseFloat& b) {
+    [[nodiscard]] constexpr BitDouble& operator*=(const baseFloat& b) noexcept{
         data.f*= b;
         return *this;
     }
@@ -322,7 +322,7 @@ struct BitDouble {
      * @param b The other number to multiply.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator*(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator*(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb*= b;
     }
@@ -331,7 +331,7 @@ struct BitDouble {
      * @param b The other number to multiply.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator*(const baseFloat& b) const {
+    [[nodiscard]] constexpr BitDouble operator*(const baseFloat& b) const noexcept{
         BitDouble bb(*this);
         return bb*= b;
     }
@@ -341,14 +341,14 @@ struct BitDouble {
      * @param a The number to multiply.
      * @return Result
      */
-    [[nodiscard]] friend BitDouble operator*(const baseFloat& b, const BitDouble& a) { return a * b; }
+    [[nodiscard]] friend constexpr BitDouble operator*(const baseFloat& b, const BitDouble& a) noexcept{ return a * b; }
 
     /**
      * @brief Self divide.
      * @param b The other number to divide.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator/=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator/=(const BitDouble& b) noexcept{
         data.f/= (b.fl());
         return *this;
     }
@@ -357,7 +357,7 @@ struct BitDouble {
      * @param b The other number to divide.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator/=(const baseFloat& b) {
+    [[nodiscard]] constexpr BitDouble& operator/=(const baseFloat& b) noexcept{
         data.f/= b;
         return *this;
     }
@@ -366,7 +366,7 @@ struct BitDouble {
      * @param b The other number to divide.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator/(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator/(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb/= b;
     }
@@ -375,7 +375,7 @@ struct BitDouble {
      * @param b The other number to divide.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator/(const baseFloat& b) const {
+    [[nodiscard]] constexpr BitDouble operator/(const baseFloat& b) const noexcept{
         BitDouble bb(*this);
         return bb/= b;
     }
@@ -385,7 +385,7 @@ struct BitDouble {
      * @param a The number to divide.
      * @return Result
      */
-    [[nodiscard]] friend BitDouble operator/(const baseFloat& b, const BitDouble& a) { return BitDouble(b / a.fl()); }
+    [[nodiscard]] friend constexpr BitDouble operator/(const baseFloat& b, const BitDouble& a) noexcept{ return BitDouble(b / a.fl()); }
 
     // ------------------------------------------------------------------------
     // bit shift operators
@@ -395,7 +395,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator<<=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator<<=(const BitDouble& b) noexcept{
         data.i<<= (b.bits());
         return *this;
     }
@@ -404,7 +404,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator<<=(const baseBits& b) {
+    [[nodiscard]] constexpr BitDouble& operator<<=(const baseBits& b) noexcept{
         data.i<<= b;
         return *this;
     }
@@ -413,7 +413,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitDouble operator<<(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator<<(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb<<= b;
     }
@@ -422,7 +422,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitDouble operator<<(const baseBits& b) const {
+    [[nodiscard]] constexpr BitDouble operator<<(const baseBits& b) const noexcept{
         BitDouble bb(*this);
         return bb<<= b;
     }
@@ -431,7 +431,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator>>=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator>>=(const BitDouble& b) noexcept{
         data.i>>= (b.bits());
         return *this;
     }
@@ -441,7 +441,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator>>=(const baseBits& b) {
+    [[nodiscard]] constexpr BitDouble& operator>>=(const baseBits& b) noexcept{
         data.i>>= b;
         return *this;
     }
@@ -450,7 +450,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitDouble operator>>(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator>>(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb>>= b;
     }
@@ -459,7 +459,7 @@ struct BitDouble {
      * @param b The number of bits to shift.
      * @return Shifted Number
      */
-    [[nodiscard]] BitDouble operator>>(const baseBits& b) const {
+    [[nodiscard]] constexpr BitDouble operator>>(const baseBits& b) const noexcept{
         BitDouble bb(*this);
         return bb>>= b;
     }
@@ -471,7 +471,7 @@ struct BitDouble {
      * @param b The bits to add.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator&=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator&=(const BitDouble& b) noexcept{
         data.i&= (b.bits());
         return *this;
     }
@@ -480,7 +480,7 @@ struct BitDouble {
      * @param b The bits to add.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator&=(const baseBits& b) {
+    [[nodiscard]] constexpr BitDouble& operator&=(const baseBits& b) noexcept{
         data.i&= b;
         return *this;
     }
@@ -489,7 +489,7 @@ struct BitDouble {
      * @param b The bits to add.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator&(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator&(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb&= b;
     }
@@ -498,7 +498,7 @@ struct BitDouble {
      * @param b The bits to add.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator&(const baseBits& b) const {
+    [[nodiscard]] constexpr BitDouble operator&(const baseBits& b) const noexcept{
         BitDouble bb(*this);
         return bb&= b;
     }
@@ -507,7 +507,7 @@ struct BitDouble {
      * @param b The bits to or.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator|=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator|=(const BitDouble& b) noexcept{
         data.i|= (b.bits());
         return *this;
     }
@@ -516,7 +516,7 @@ struct BitDouble {
      * @param b The bits to or.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator|=(const baseBits& b) {
+    [[nodiscard]] constexpr BitDouble& operator|=(const baseBits& b) noexcept{
         data.i|= b;
         return *this;
     }
@@ -525,7 +525,7 @@ struct BitDouble {
      * @param b The bits to or.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator|(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator|(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb|= b;
     }
@@ -534,7 +534,7 @@ struct BitDouble {
      * @param b The bits to or.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator|(const baseBits& b) const {
+    [[nodiscard]] constexpr BitDouble operator|(const baseBits& b) const noexcept{
         BitDouble bb(*this);
         return bb|= b;
     }
@@ -543,7 +543,7 @@ struct BitDouble {
      * @param b The bits to xor.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator^=(const BitDouble& b) {
+    [[nodiscard]] constexpr BitDouble& operator^=(const BitDouble& b) noexcept{
         data.i^= (b.bits());
         return *this;
     }
@@ -552,7 +552,7 @@ struct BitDouble {
      * @param b The bits to xor.
      * @return this
      */
-    [[nodiscard]] BitDouble& operator^=(const baseBits& b) {
+    [[nodiscard]] constexpr BitDouble& operator^=(const baseBits& b) noexcept{
         data.i^= b;
         return *this;
     }
@@ -561,7 +561,7 @@ struct BitDouble {
      * @param b The bits to xor.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator^(const BitDouble& b) const {
+    [[nodiscard]] constexpr BitDouble operator^(const BitDouble& b) const noexcept{
         BitDouble bb(*this);
         return bb^= b;
     }
@@ -570,7 +570,7 @@ struct BitDouble {
      * @param b The bits to xor.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator^(const baseBits& b) const {
+    [[nodiscard]] constexpr BitDouble operator^(const baseBits& b) const noexcept{
         BitDouble bb(*this);
         return bb^= b;
     }
@@ -579,7 +579,7 @@ struct BitDouble {
      * @param b The bits to not.
      * @return Result
      */
-    [[nodiscard]] BitDouble operator~() const {
+    [[nodiscard]] constexpr BitDouble operator~() const noexcept{
         BitDouble bb(*this);
         bb.bits()= ~bb.bits();
         return bb;
@@ -593,28 +593,28 @@ struct BitDouble {
      * @brief Get the value of the bit sign
      * @return true if negative.
      */
-    [[nodiscard]] bool sign() const { return (data.i & const64::signMask) != 0; }
+    [[nodiscard]] constexpr bool sign() const noexcept{ return (data.i & const64::signMask) != 0; }
     /**
      * @brief define the sign of the float
      * @param s the new sign
      */
-    void setSign(bool s) { data.i= (data.i & const64::notSign) | (s * const64::signMask); }
+    void setSign(bool s) noexcept{ data.i= (data.i & const64::notSign) | (s * const64::signMask); }
     /**
      * @brief change the sign of the float
      */
-    void toggleSign() { data.i^= const64::signMask; }
+    constexpr void toggleSign() noexcept{ data.i^= const64::signMask; }
 
     // the exponent bits
     /**
      * @brief Get the bits representing the exponent.
      * @return The exponent bits.
      */
-    [[nodiscard]] u16 exponentRaw() const { return (data.i & const64::expoMask) >> const64::mantBitNum; }
+    [[nodiscard]] constexpr u16 exponentRaw() const noexcept{ return (data.i & const64::expoMask) >> const64::mantBitNum; }
     /**
      * @brief get the exponent bits as a string.
      * @return String with bit representation.
      */
-    [[nodiscard]] std::string exponentRawBits() const {
+    [[nodiscard]] std::string exponentRawBits() const noexcept{
         std::string a;
         for(u8 i= 0; i < const64::expoBitNum; ++i) {
             baseBits bitMask= const64::one << (const64::expoBitNum + const64::mantBitNum - const64::one - i);
@@ -626,29 +626,29 @@ struct BitDouble {
      * @brief Get The value of the exponent unbiased
      * @return unbiased value of the exponent
      */
-    [[nodiscard]] s16 exponent() const { return exponentRaw() - const64::expoBias; }
+    [[nodiscard]] constexpr s16 exponent() const noexcept{ return exponentRaw() - const64::expoBias; }
     /**
      * @brief Define the exponent bits
      * @param exp the new exponent bits
      */
-    void setExponentRaw(const baseBits& exp) { data.i= (data.i & const64::notExpo) | ((exp << const64::mantBitNum) & const64::expoMask); }
+    void setExponentRaw(const baseBits& exp) noexcept{ data.i= (data.i & const64::notExpo) | ((exp << const64::mantBitNum) & const64::expoMask); }
     /**
      * @brief Define the unbiased exponent.
      * @param exp unbiased exponent
      */
-    void setExponent(const s16& exp) { setExponentRaw(exp + const64::expoBias); }
+    void setExponent(const s16& exp) noexcept{ setExponentRaw(exp + const64::expoBias); }
 
     // the mantissa bits
     /**
      * @brief Get raw bits of the mantissa.
      * @return The raw bits of the mantissa.
      */
-    [[nodiscard]] baseBits mantissaRaw() const { return (data.i & const64::mantMask); }
+    [[nodiscard]] constexpr baseBits mantissaRaw() const noexcept{ return (data.i & const64::mantMask); }
     /**
      * @brief Get raw bits of the mantissa as string.
      * @return String with mantissa's bits.
      */
-    [[nodiscard]] std::string mantissaRawBits() const {
+    [[nodiscard]] std::string mantissaRawBits() const noexcept{
         std::string a;
         for(u8 i= 0; i < const64::mantBitNum; ++i) {
             baseBits bitMask= const64::one << (const64::mantBitNum - const64::one - i);
@@ -660,18 +660,18 @@ struct BitDouble {
      * @brief Get bits of the mantissa with the implicit one.
      * @return The bits of the mantissa.
      */
-    [[nodiscard]] baseBits mantissa() const { return (data.i & const64::mantMask) | const64::implicitBit; }
+    [[nodiscard]] constexpr baseBits mantissa() const noexcept{ return (data.i & const64::mantMask) | const64::implicitBit; }
     /**
      * @brief Set raw bits of the mantissa.
      * @param m The bits of the mantissa.
      */
-    void setMantissaRaw(const baseBits& m) { data.i= (data.i & const64::notMant) | (m & const64::mantMask); }
+    void setMantissaRaw(const baseBits& m) noexcept{ data.i= (data.i & const64::notMant) | (m & const64::mantMask); }
 
     /**
      * @brief Get a string representation of all bits.
      * @return String of the bits
      */
-    [[nodiscard]] std::string rawBits() const {
+    [[nodiscard]] std::string rawBits() const noexcept{
         std::stringstream oss;
         oss << "[" << std::bitset<const64::one>(sign()) << "][" << std::bitset<const64::expoBitNum>(exponentRaw()) << "][" << std::bitset<const64::mantBitNum>(mantissaRaw()) << "]";
         return oss.str();
@@ -684,32 +684,32 @@ struct BitDouble {
      * @brief View this object as a float.
      * @return A float copy of this object.
      */
-    [[nodiscard]] baseFloat getFloat() const { return data.f; }
+    [[nodiscard]] constexpr baseFloat getFloat() const noexcept{ return data.f; }
     /**
      * @brief View this object as a set of bits.
      * @return A uint copy of this object
      */
-    [[nodiscard]] baseBits getBits() const { return data.i; }
+    [[nodiscard]] constexpr baseBits getBits() const noexcept{ return data.i; }
     /**
      * @brief Access to the bits const.
      * @return Const reference to the bits.
      */
-    [[nodiscard]] const baseBits& bits() const { return data.i; }
+    [[nodiscard]] constexpr const baseBits& bits() const noexcept{ return data.i; }
     /**
      * @brief Access to the bits.
      * @return Reference to the bits.
      */
-    [[nodiscard]] baseBits& bits() { return data.i; }
+    [[nodiscard]] constexpr baseBits& bits() noexcept{ return data.i; }
     /**
      * @brief Access to the bits const.
      * @return Const reference to the bits.
      */
-    [[nodiscard]] const baseFloat& fl() const { return data.f; }
+    [[nodiscard]] constexpr const baseFloat& fl() const noexcept{ return data.f; }
     /**
      * @brief Access to the bits.
      * @return Reference to the bits.
      */
-    [[nodiscard]] baseFloat& fl() { return data.f; }
+    [[nodiscard]] constexpr baseFloat& fl() noexcept{ return data.f; }
 
     // ------------------------------------------------------------------------
     // Normalization information
@@ -718,28 +718,28 @@ struct BitDouble {
      * @brief Determine if a float is a normalize one.
      * @return true if the float is a normalized one.
      */
-    [[nodiscard]] bool isNormalized() const {
+    [[nodiscard]] constexpr bool isNormalized() const noexcept{
         return !isDenormalized();
     }
     /**
      * @brief Determine if a float is not a normalize one.
      * @return true if the float is not a normalized one.
      */
-    [[nodiscard]] bool isDenormalized() const {
+    [[nodiscard]] constexpr bool isDenormalized() const noexcept{
         return (exponentRaw() == 0 && mantissaRaw() != 0) || exponentRaw() == const64::fullExpo;
     }
     /**
      * @brief Determine if a float is an infinite representation.
      * @return true if the float is an infinite representation.
      */
-    [[nodiscard]] bool isInfinite() const {
+    [[nodiscard]] constexpr bool isInfinite() const noexcept{
         return ((data.i & const64::expoMask) == const64::expoMask) && ((data.i & const64::mantMask) == 0);
     }
     /**
      * @brief Determine if a float is not a number.
      * @return true if the float is not a number.
      */
-    [[nodiscard]] bool isNaN() const {
+    [[nodiscard]] constexpr bool isNaN() const noexcept{
         return ((data.i & const64::expoMask) == const64::expoMask) && ((data.i & const64::mantMask) != 0);
     }
 

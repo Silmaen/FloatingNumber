@@ -16,11 +16,21 @@ constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Floa
 }// namespace const32
 
 /**
+ * @brief absolute value of the given float
+ * @param f the float to measure
+ * @return the absolute value of f
+ */
+[[nodiscard]] constexpr BitDouble abs(const BitDouble& f)noexcept {
+    return BitDouble(f.bits() & const64::notSign);
+}
+/**
  * @brief Fast approximate logarithm base 2.
  *
  * Works for positive values of f, for negative value, the behavior is undefined.
  *
  * The absolute error is between 0.0 and -0.04 for any positive input value.
+ *
+ * @warning no test are done on inputs, so incorrect inputs leads tu undefined behavior
  *
  * @param f The input value.
  * @return The approximate log2.
@@ -32,6 +42,8 @@ constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Floa
  * @brief Fast approximate logarithm base 2 of the absolute value.
  *
  * The absolute error is between 0.0 and -0.04 for any positive input value.
+ *
+ * @warning no test are done on inputs, so incorrect inputs leads tu undefined behavior
  *
  * @param f The input value.
  * @return The approximate log2.
@@ -47,6 +59,8 @@ constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Floa
  *
  * Relative error is between 0.0 and -0.04 for any value in non-overflowing range.
  *
+ * @warning no test are done on inputs, so incorrect inputs leads tu undefined behavior
+ *
  * @param f The input value.
  * @return The approximate exp2.
  */
@@ -56,11 +70,14 @@ constexpr baseFloat scaleDown= 1.0f / scaleUp;    ///< Scaling bit_asInt to Floa
     return a.fl();
 }
 /**
-* @brief compute the power p of float f
-* @param f the base
-* @param p the exponent
-* @return f^p
-*/
+ * @brief compute the power p of float f
+ *
+ * @warning no test are done on inputs, so incorrect inputs leads tu undefined behavior
+ *
+ * @param f the base
+ * @param p the exponent
+ * @return f^p
+ */
 [[nodiscard]] inline BitDouble::baseFloat pow(const BitDouble& f, const BitDouble& p) {
     BitDouble a;
     a.bits()= (s64(p.fl() * ((s64)f.bits() - (s64)const64::oneAsInt)) + const64::oneAsInt);

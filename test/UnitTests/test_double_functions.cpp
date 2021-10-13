@@ -9,6 +9,12 @@
 
 #pragma GCC diagnostic push
 
+TEST(double_functions,abs) {
+    fln::object::BitDouble a(-15.0f), b(118.0f);
+    EXPECT_FALSE(fln::object::abs(a).sign());
+    EXPECT_FALSE(fln::object::abs(b).sign());
+}
+
 TEST(double_functions, log2){
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING OBJECT LOG2 (double) ===---" << std::endl;

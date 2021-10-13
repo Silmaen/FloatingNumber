@@ -9,6 +9,12 @@
 
 #pragma GCC diagnostic push
 
+TEST(float_functions,abs) {
+    fln::object::BitFloat a(-15.0f), b(118.0f);
+    EXPECT_FALSE(fln::object::abs(a).sign());
+    EXPECT_FALSE(fln::object::abs(b).sign());
+}
+
 TEST(float_functions, log2){
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING OBJECT LOG2 ===---" << std::endl;
