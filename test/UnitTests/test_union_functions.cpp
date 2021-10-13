@@ -1,33 +1,33 @@
 #include <gtest/gtest.h>
 
 #define IDEBUG
-#include "bithack_Functions.h"
+#include "union_Functions.h"
 #include <baseFunctions.h>
 #include <cmath>
 #include <numeric>
 
-using namespace fln::bithack;
+using namespace fln::_union;
 
-TEST(bithack_functions,sign_float) {
+TEST(union_functions,sign_float) {
     float a= -15.0f, b= 118.0f;
     EXPECT_TRUE(isNegative(a));
     EXPECT_FALSE(isNegative(b));
     EXPECT_FALSE(isNegative(negate(a)));
     EXPECT_TRUE(isNegative(negate(b)));
-    EXPECT_FALSE(isNegative(fln::bithack::abs(a)));
-    EXPECT_FALSE(isNegative(fln::bithack::abs(b)));
+    EXPECT_FALSE(isNegative(fln::_union::abs(a)));
+    EXPECT_FALSE(isNegative(fln::_union::abs(b)));
 }
-TEST(bithack_functions,sign_double) {
+TEST(union_functions,sign_double) {
     double ad=-15.0f,bd= 118.0f;
     EXPECT_TRUE(isNegative(ad));
     EXPECT_FALSE(isNegative(bd));
     EXPECT_FALSE(isNegative(negate(ad)));
     EXPECT_TRUE(isNegative(negate(bd)));
-    EXPECT_FALSE(isNegative(fln::bithack::abs(ad)));
-    EXPECT_FALSE(isNegative(fln::bithack::abs(bd)));
+    EXPECT_FALSE(isNegative(fln::_union::abs(ad)));
+    EXPECT_FALSE(isNegative(fln::_union::abs(bd)));
 }
 
-TEST(bithack_functions,log2_float) {
+TEST(union_functions,log2_float) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK LOG2 ===---" << std::endl;
 #endif
@@ -37,8 +37,8 @@ TEST(bithack_functions,log2_float) {
     }
     std::vector<fln::f32> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::log2(n), fln::bithack::log2(n), 0.1);
-        errors.push_back(fln::bithack::log2(n) - std::log2(n));
+        EXPECT_NEAR(std::log2(n), fln::_union::log2(n), 0.1);
+        errors.push_back(fln::_union::log2(n) - std::log2(n));
     }
     fln::f32 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
     fln::f32 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -51,7 +51,7 @@ TEST(bithack_functions,log2_float) {
 #endif
 }
 
-TEST(bithack_functions,log2_double) {
+TEST(union_functions,log2_double) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK LOG2 (double) ===---" << std::endl;
 #endif
@@ -61,8 +61,8 @@ TEST(bithack_functions,log2_double) {
     }
     std::vector<fln::f64> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::log2(n), fln::bithack::log2(n), 0.1);
-        errors.push_back(fln::bithack::log2(n) - std::log2(n));
+        EXPECT_NEAR(std::log2(n), fln::_union::log2(n), 0.1);
+        errors.push_back(fln::_union::log2(n) - std::log2(n));
     }
     fln::f64 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f64>(errors.size());
     fln::f64 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -75,7 +75,7 @@ TEST(bithack_functions,log2_double) {
 #endif
 }
 
-TEST(bithack_functions,exp2_float) {
+TEST(union_functions,exp2_float) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK EXP2 ===---" << std::endl;
 #endif
@@ -85,8 +85,8 @@ TEST(bithack_functions,exp2_float) {
     }
     std::vector<fln::f32> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::exp2(n), fln::bithack::exp2(n), 0.1*std::exp2(n));
-        errors.push_back((fln::bithack::exp2(n) - std::exp2(n))/std::exp2(n));
+        EXPECT_NEAR(std::exp2(n), fln::_union::exp2(n), 0.1*std::exp2(n));
+        errors.push_back((fln::_union::exp2(n) - std::exp2(n))/std::exp2(n));
     }
     fln::f32 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
     fln::f32 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -99,7 +99,7 @@ TEST(bithack_functions,exp2_float) {
 #endif
 }
 
-TEST(bithack_functions,exp2_double) {
+TEST(union_functions,exp2_double) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK EXP2 (double) ===---" << std::endl;
 #endif
@@ -109,8 +109,8 @@ TEST(bithack_functions,exp2_double) {
     }
     std::vector<fln::f64> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::exp2(n), fln::bithack::exp2(n), 0.1*std::exp2(n));
-        errors.push_back((fln::bithack::exp2(n) - std::exp2(n))/std::exp2(n));
+        EXPECT_NEAR(std::exp2(n), fln::_union::exp2(n), 0.1*std::exp2(n));
+        errors.push_back((fln::_union::exp2(n) - std::exp2(n))/std::exp2(n));
     }
     fln::f64 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f64>(errors.size());
     fln::f64 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -123,7 +123,7 @@ TEST(bithack_functions,exp2_double) {
 #endif
 }
 
-TEST(bithack_functions,pow_float) {
+TEST(union_functions,pow_float) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK POW ===---" << std::endl;
 #endif
@@ -135,8 +135,8 @@ TEST(bithack_functions,pow_float) {
     }
     std::vector<fln::f32> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::pow(n.first,n.second), fln::bithack::pow(n.first,n.second), fln::ternary::max(0.001,0.5*std::pow(n.first,n.second)));
-        errors.push_back((fln::bithack::pow(n.first,n.second) - std::pow(n.first,n.second))/std::pow(n.first,n.second));
+        EXPECT_NEAR(std::pow(n.first,n.second), fln::_union::pow(n.first,n.second), fln::ternary::max(0.001,0.5*std::pow(n.first,n.second)));
+        errors.push_back((fln::_union::pow(n.first,n.second) - std::pow(n.first,n.second))/std::pow(n.first,n.second));
     }
     fln::f32 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
     fln::f32 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -149,7 +149,7 @@ TEST(bithack_functions,pow_float) {
 #endif
 }
 
-TEST(bithack_functions,pow_double) {
+TEST(union_functions,pow_double) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK POW (double) ===---" << std::endl;
 #endif
@@ -161,8 +161,8 @@ TEST(bithack_functions,pow_double) {
     }
     std::vector<fln::f64> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::pow(n.first,n.second), fln::bithack::pow(n.first,n.second), fln::ternary::max(0.001,0.5*std::pow(n.first,n.second)));
-        errors.push_back((fln::bithack::pow(n.first,n.second) - std::pow(n.first,n.second))/std::pow(n.first,n.second));
+        EXPECT_NEAR(std::pow(n.first,n.second), fln::_union::pow(n.first,n.second), fln::ternary::max(0.001,0.5*std::pow(n.first,n.second)));
+        errors.push_back((fln::_union::pow(n.first,n.second) - std::pow(n.first,n.second))/std::pow(n.first,n.second));
     }
     fln::f64 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f64>(errors.size());
     fln::f64 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -176,7 +176,7 @@ TEST(bithack_functions,pow_double) {
 }
 
 
-TEST(bithack_functions,sqrt_float) {
+TEST(union_functions,sqrt_float) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK SQRT ===---" << std::endl;
 #endif
@@ -186,8 +186,8 @@ TEST(bithack_functions,sqrt_float) {
     }
     std::vector<fln::f32> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::sqrt(n), fln::bithack::sqrt(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
-        errors.push_back((fln::bithack::sqrt(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
+        EXPECT_NEAR(std::sqrt(n), fln::_union::sqrt(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
+        errors.push_back((fln::_union::sqrt(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
     }
     fln::f32 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
     fln::f32 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -199,7 +199,8 @@ TEST(bithack_functions,sqrt_float) {
     std::cout << "---=== END BITHACK SQRT ===---" << std::endl;
 #endif
 }
-TEST(bithack_functions,sqrt_double) {
+
+TEST(union_functions,sqrt_double) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK SQRT (double) ===---" << std::endl;
 #endif
@@ -209,8 +210,8 @@ TEST(bithack_functions,sqrt_double) {
     }
     std::vector<fln::f64> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::sqrt(n), fln::bithack::sqrt(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
-        errors.push_back((fln::bithack::sqrt(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
+        EXPECT_NEAR(std::sqrt(n), fln::_union::sqrt(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
+        errors.push_back((fln::_union::sqrt(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
     }
     fln::f64 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f64>(errors.size());
     fln::f64 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -223,7 +224,7 @@ TEST(bithack_functions,sqrt_double) {
 #endif
 }
 
-TEST(bithack_functions,sqrt_pow_float) {
+TEST(union_functions,sqrt_pow_float) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK SQRT_POW ===---" << std::endl;
 #endif
@@ -233,8 +234,8 @@ TEST(bithack_functions,sqrt_pow_float) {
     }
     std::vector<fln::f32> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::sqrt(n), fln::bithack::sqrt_pow(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
-        errors.push_back((fln::bithack::sqrt_pow(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
+        EXPECT_NEAR(std::sqrt(n), fln::_union::sqrt_pow(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
+        errors.push_back((fln::_union::sqrt_pow(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
     }
     fln::f32 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
     fln::f32 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
@@ -247,7 +248,7 @@ TEST(bithack_functions,sqrt_pow_float) {
 #endif
 }
 
-TEST(bithack_functions,sqrt_pow_double) {
+TEST(union_functions,sqrt_pow_double) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK SQRT_POW (double) ===---" << std::endl;
 #endif
@@ -257,20 +258,21 @@ TEST(bithack_functions,sqrt_pow_double) {
     }
     std::vector<fln::f64> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::sqrt(n), fln::bithack::sqrt_pow(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
-        errors.push_back((fln::bithack::sqrt_pow(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
+        EXPECT_NEAR(std::sqrt(n), fln::_union::sqrt_pow(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
+        errors.push_back((fln::_union::sqrt_pow(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
     }
-    fln::f64 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
+    fln::f64 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f64>(errors.size());
     fln::f64 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);
     fln::f64 stdev = std::sqrt(sq_sum / errors.size() - mean * mean);
     EXPECT_LT(mean, 0.05);
     EXPECT_LT(stdev, 0.05);
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "average relative error of bithack sqrt_pow (double): " << mean << " standard deviation: " << stdev << std::endl;
-    std::cout << "---=== END BITHACK SQRT_POW (double) ===---" << std::endl;
+    std::cout << "average relative error of bithack sqrt_pow(double): " << mean << " standard deviation: " << stdev << std::endl;
+    std::cout << "---=== END BITHACK SQRT_POW(double) ===---" << std::endl;
 #endif
 }
-TEST(bithack_functions,sqrt_b) {
+
+TEST(union_functions,sqrt_b) {
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== TESTING BITHACK SQRT_B ===---" << std::endl;
 #endif
@@ -280,8 +282,8 @@ TEST(bithack_functions,sqrt_b) {
     }
     std::vector<fln::f32> errors ={};
     for (auto& n:numbers){
-        EXPECT_NEAR(std::sqrt(n), fln::bithack::sqrt_b(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
-        errors.push_back((fln::bithack::sqrt_b(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
+        EXPECT_NEAR(std::sqrt(n), fln::_union::sqrt_b(n), fln::ternary::max(0.0001,0.1*std::sqrt(n)));
+        errors.push_back((fln::_union::sqrt_b(n) - std::sqrt(n))/fln::ternary::max(0.0001,(fln::f64)std::sqrt(n)));
     }
     fln::f32 mean = std::reduce(errors.begin(), errors.end()) / static_cast<fln::f32>(errors.size());
     fln::f32 sq_sum = std::inner_product(errors.begin(), errors.end(), errors.begin(), 0.0);

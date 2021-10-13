@@ -19,18 +19,18 @@ namespace fln {
  */
 namespace bithack {
 // magic numbers
-constexpr u32 oneAsInt32 = 0b00111111100000000000000000000000;///< float(1) as int
-constexpr f32 ScaleUp32  = float(0x00800000);                 ///< 8388608.0, 2^23
-constexpr f32 ScaleDown32= 1.0f / ScaleUp32;                  ///< Scaling down, inverse of ScaleUp32
+constexpr u32 oneAsInt32 = 0b00111111100000000000000000000000;                                ///< float(1) as int
+constexpr f32 ScaleUp32  = float(0x00800000);                                                 ///< 8388608.0, 2^23
+constexpr f32 ScaleDown32= 1.0f / ScaleUp32;                                                  ///< Scaling down, inverse of ScaleUp32
 constexpr u64 oneAsInt64 = 0b0011111111110000000000000000000000000000000000000000000000000000;///< double(1) as int
-constexpr f64 ScaleUp64  = double(1ULL<<52U);                 ///< 2^52
-constexpr f64 ScaleDown64= 1.0 / ScaleUp64;                   ///< Scaling down, inverse of ScaleUp32
+constexpr f64 ScaleUp64  = double(1ULL << 52U);                                               ///< 2^52
+constexpr f64 ScaleDown64= 1.0 / ScaleUp64;                                                   ///< Scaling down, inverse of ScaleUp32
 
 // Bit masks for the position of the sign bit
-constexpr u32 negZero32= 0x80000000;         ///< mask of the sign bit for 32 bits
-constexpr u64 negZero64= 0x8000000000000000;///< mask of the sign bit for 64bits
-constexpr u32 nnegZero32= ~negZero32;///< mask of the 32 bits except sign bit
-constexpr u64 nnegZero64= ~negZero64;///< mask of the 64 bits except sign bit
+constexpr u32 negZero32 = 0x80000000;        ///< mask of the sign bit for 32 bits
+constexpr u64 negZero64 = 0x8000000000000000;///< mask of the sign bit for 64bits
+constexpr u32 nnegZero32= ~negZero32;        ///< mask of the 32 bits except sign bit
+constexpr u64 nnegZero64= ~negZero64;        ///< mask of the 64 bits except sign bit
 
 // Conversions float & int
 /**
@@ -57,7 +57,6 @@ constexpr u64 nnegZero64= ~negZero64;///< mask of the 64 bits except sign bit
  * @return The corresponding 64bit float.
  */
 [[nodiscard]] constexpr f64 asFloat(const u64& i) { return *(f64*)&i; }
-
 
 //sign
 /**
@@ -163,35 +162,49 @@ constexpr u64 nnegZero64= ~negZero64;///< mask of the 64 bits except sign bit
  * @return f^p
  */
 [[nodiscard]] constexpr f64 pow(const f64& f, const f64& p) { return asFloat(s64(p * ((s64)asInt(f) - (s64)oneAsInt64)) + oneAsInt64); }
+
+/**
+ * @brief square root using pow(x,0.5)
+ * @param f the float to square root
+ * @return the square root
+ */
+[[nodiscard]] constexpr f32 sqrt_pow(const f32& f) { return asFloat(s32(0.5f * ((s32)asInt(f) - (s32)oneAsInt32)) + oneAsInt32); }
+
+/**
+ * @brief square root using pow(x,0.5)
+ * @param f the float to square root
+ * @return the square root
+ */
+[[nodiscard]] constexpr f64 sqrt_pow(const f64& f) { return asFloat(s64(0.5 * ((s64)asInt(f) - (s64)oneAsInt64)) + oneAsInt64); }
+
+/**
+ * @brief square root
+ * @param f the float to square root
+ * @return the square root
+ */
+[[nodiscard]] constexpr f32 sqrt(const f32& f) { return bithack::asFloat((bithack::asInt(f) + bithack::oneAsInt32) >> 1U); }
+
+/**
+ * @brief square root
+ * @param f the float to square root
+ * @return the square root
+ */
+[[nodiscard]] constexpr f64 sqrt(const f64& f) { return bithack::asFloat((bithack::asInt(f) + bithack::oneAsInt64) >> 1U); }
+
+/**
+ * @brief alternative method for sqrt computation based on what is used in codingame
+ * @param x the float to square root
+ * @return the square root
+ */
+[[nodiscard]] constexpr f32 sqrt_b(const f32& x) {
+    constexpr u32 sqrt_magic= (1U << 29U) - (1U << 22U);
+    return bithack::asFloat(sqrt_magic + (bithack::asInt(x) >> 1U));
 }
 
-// ---=== SQRT 32 ===---
-constexpr u32 sqrt_oneL29= 1 << 29;
-constexpr u32 sqrt_oneL22= 1 << 22;
-constexpr u32 sqrt_magic = sqrt_oneL29 - sqrt_oneL22;
-[[nodiscard]] constexpr f32 fastSqrt(const f32& x) {
-    union {
-        s32 i;
-        f32 x;
-    } u{};
-    u.x= x;
-    u.i= (1 << 29) + (u.i >> 1) - (1 << 22);
-    return (u.x);
-}
-[[nodiscard]] constexpr f32 fastSqrt_(const f32& x) {
-    union {s32 i;f32 x;} u{};u.x= x;
-    u.i= sqrt_magic + (u.i >> 1);
-    return (u.x);
-}
-[[nodiscard]] constexpr f32 fastSqrt2(const f32& x) { return bithack::asFloat((1 << 29) + (bithack::asInt(x) >> 1) - (1 << 22)); }
-[[nodiscard]] constexpr f32 fastSqrt3(const f32& x) { return bithack::asFloat(sqrt_magic + (bithack::asInt(x) >> 1)); }
-[[nodiscard]] constexpr f32 fasterSqrt(const f32& f) { return bithack::asFloat((bithack::asInt(f) + bithack::oneAsInt32) >> 1); }
-[[nodiscard]] constexpr f32 sqrtNewRaph(const f32& f) {
-    float y= fasterSqrt(f);
-    return (y * y + f) / (2 * y);
-}
-// ---=== SQRT 32 ===---
+}// namespace bithack
 
+// ---=== SQRT 32 ===---
+/*
 // LOGARITM
 [[nodiscard]] constexpr f32 fasterlog(const f32& x) {
     union {
@@ -202,5 +215,5 @@ constexpr u32 sqrt_magic = sqrt_oneL29 - sqrt_oneL22;
     y*= 8.2629582881927490e-8f;
     return (y - 87.989971088f);
 }
-
+*/
 }// namespace fln

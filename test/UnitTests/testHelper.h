@@ -16,11 +16,10 @@ constexpr fln::u64 loopNumber= 10000000;
 #endif
 
 #ifdef FLN_VERBOSE_TEST
-#define CHRONOMETER_DURATION(F, VAR_INIT, F_NAME, TIMEOUT, EXPECTED_NUM)                                                       \
+#define CHRONOMETER_DURATION(F, F_NAME, TIMEOUT, EXPECTED_NUM)                                                       \
     {                                                                                                                          \
         fln::time::Timer time;                                                                                                 \
         static fln::u64 counter= 0;                                                                                            \
-        VAR_INIT;                                                                                                              \
         time.startTimer(TIMEOUT);                                                                                              \
         try {                                                                                                                  \
             while(true) {                                                                                                      \
@@ -37,11 +36,10 @@ constexpr fln::u64 loopNumber= 10000000;
         EXPECT_GT(counter, EXPECTED_NUM);                                                                                      \
     }
 
-#define CHRONOMETER_ITERATION(F, VAR_INIT, F_NAME, EXPECT_MEAN_NANO)                                     \
+#define CHRONOMETER_ITERATION(F, F_NAME, EXPECT_MEAN_NANO)                                     \
     {                                                                                                                      \
         fln::time::Timer time;                                                                                             \
         static fln::u64 counter= 0;                                                                                        \
-        VAR_INIT;                                                                                                          \
         time.startTimer();                                                                                                 \
         for(; counter < loopNumber; ++counter) {                                                                   \
             F;                                                                                                             \
@@ -54,11 +52,10 @@ constexpr fln::u64 loopNumber= 10000000;
         EXPECT_LT((fln::f64)time.currentTimeTakenInNanoSeconds().count() / (fln::f64)loopNumber, EXPECT_MEAN_NANO);                        \
     }
 #else
-#define CHRONOMETER_DURATION(F, VAR_INIT, F_NAME, TIMEOUT, EXPECTED_NUM) \
+#define CHRONOMETER_DURATION(F, F_NAME, TIMEOUT, EXPECTED_NUM) \
     {                                                                    \
         fln::time::Timer time;                                           \
         static fln::u64 counter= 0;                                      \
-        VAR_INIT;                                                        \
         time.startTimer(TIMEOUT);                                        \
         try {                                                            \
             while(true) {                                                \
@@ -70,11 +67,10 @@ constexpr fln::u64 loopNumber= 10000000;
         EXPECT_GT(counter, EXPECTED_NUM);                                \
     }
 
-#define CHRONOMETER_ITERATION(F, VAR_INIT, F_NAME, ITERATION_NUMBER, EXPECT_MEAN_NANO)              \
+#define CHRONOMETER_ITERATION(F, F_NAME, EXPECT_MEAN_NANO)              \
     {                                                                                               \
         fln::time::Timer time;                                                                      \
         static fln::u64 counter= 0;                                                                 \
-        VAR_INIT;                                                                                   \
         time.startTimer();                                                                          \
         for(; counter < loopNumber; ++counter) {                                            \
             F;                                                                                      \
