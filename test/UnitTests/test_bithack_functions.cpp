@@ -2,7 +2,6 @@
 
 #define IDEBUG
 #include "bithack_Functions.h"
-#include "testHelper.h"
 #include <baseFunctions.h>
 #include <cmath>
 #include <numeric>

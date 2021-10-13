@@ -2,8 +2,9 @@
  * \author Silmaen
  * \date 07/10/2021
  */
-
 #pragma once
+#include "baseDefines.h"
+
 /**
  * @brief base namespace for the project
  */

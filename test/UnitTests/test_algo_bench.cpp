@@ -14,17 +14,17 @@ TEST(algo_benchmark, log2){
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== BENCHMARK LOG2 ===---" << std::endl;
     // performance
-    std::cout << "log2 performance review" << std::endl;
+    std::cout << "log2 performance review " << configName << std::endl;
 #endif
-    CHRONOMETER_ITERATION(std::log2(150.0),,                                              "std::log2         (dbl)",1000000,5)
-    CHRONOMETER_ITERATION(fln::object::log2(f),fln::object::BitDouble f(150.0)  ,"fln::object::log2 (dbl)",100000,10)
-    CHRONOMETER_ITERATION(fln::object::log2a(f),fln::object::BitDouble f(150.0) ,"fln::object::log2a(dbl)",1000000,10)
-    CHRONOMETER_ITERATION(fln::bithack::log2(150.0),                                     ,"fln::bithack::log2(dbl)",1000000,10)
     CHRONOMETER_DURATION(,,"",1,1); // warmup
-    CHRONOMETER_ITERATION(std::log2(150.0f),,                                            "std::log2              ",1000000,30)
-    CHRONOMETER_ITERATION(fln::object::log2(f),fln::object::BitFloat f(150.0f) ,"fln::object::log2      ",1000000,10)
-    CHRONOMETER_ITERATION(fln::object::log2a(f),fln::object::BitFloat f(150.0f),"fln::object::log2a     ",1000000,10)
-    CHRONOMETER_ITERATION(fln::bithack::log2(150.0f),                                   ,"fln::bithack::log2     ",1000000,10)
+    CHRONOMETER_ITERATION(std::log2(150.0),,                                              "std::log2         (dbl)",5)
+    CHRONOMETER_ITERATION(fln::object::log2(f),fln::object::BitDouble f(150.0)  ,"fln::object::log2 (dbl)",10)
+    CHRONOMETER_ITERATION(fln::object::log2a(f),fln::object::BitDouble f(150.0) ,"fln::object::log2a(dbl)",10)
+    CHRONOMETER_ITERATION(fln::bithack::log2(150.0),                                     ,"fln::bithack::log2(dbl)",10)
+    CHRONOMETER_ITERATION(std::log2(150.0f),,                                            "std::log2              ",30)
+    CHRONOMETER_ITERATION(fln::object::log2(f),fln::object::BitFloat f(150.0f) ,"fln::object::log2      ",10)
+    CHRONOMETER_ITERATION(fln::object::log2a(f),fln::object::BitFloat f(150.0f),"fln::object::log2a     ",10)
+    CHRONOMETER_ITERATION(fln::bithack::log2(150.0f),                                   ,"fln::bithack::log2     ",10)
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== END LOG2 ===---" << std::endl;
 #endif
@@ -33,15 +33,15 @@ TEST(algo_benchmark, log2){
 TEST(algo_benchmark, exp2){
 #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== BENCHMARK EXP2 ===---" << std::endl;
-    std::cout << "log2 performance review" << std::endl;
+    std::cout << "log2 performance review " << configName << std::endl;
 #endif
-    CHRONOMETER_ITERATION(std::exp2(150.0),                                            ,"std::exp2         (dbl)",1000000,5)
-    CHRONOMETER_ITERATION(fln::object::exp2(f),fln::object::BitDouble f(150.0),"fln::object::exp2 (dbl)",1000000,15)
-    CHRONOMETER_ITERATION(fln::bithack::exp2(150.0),                                   ,"fln::bithack::exp2(dbl)",1000000,10)
     CHRONOMETER_DURATION(,,"",1,1); // warmup
-    CHRONOMETER_ITERATION(std::exp2(150.0f),                                           ,"std::exp2              ",1000000,300)
-    CHRONOMETER_ITERATION(fln::object::exp2(f),fln::object::BitFloat f(150.0f),"fln::object::exp2      ",1000000,15)
-    CHRONOMETER_ITERATION(fln::bithack::exp2(150.0f),                                  ,"fln::bithack::exp2     ",1000000,10)
+    CHRONOMETER_ITERATION(std::exp2(150.0),                                            ,"std::exp2         (dbl)",5)
+    CHRONOMETER_ITERATION(fln::object::exp2(f),fln::object::BitDouble f(150.0),"fln::object::exp2 (dbl)",15)
+    CHRONOMETER_ITERATION(fln::bithack::exp2(150.0),                                   ,"fln::bithack::exp2(dbl)",10)
+    CHRONOMETER_ITERATION(std::exp2(150.0f),                                           ,"std::exp2              ",300)
+    CHRONOMETER_ITERATION(fln::object::exp2(f),fln::object::BitFloat f(150.0f),"fln::object::exp2      ",15)
+    CHRONOMETER_ITERATION(fln::bithack::exp2(150.0f),                                  ,"fln::bithack::exp2     ",10)
  #ifdef FLN_VERBOSE_TEST
     std::cout << "---=== END EXP2 ===---" << std::endl;
 #endif
@@ -49,18 +49,18 @@ TEST(algo_benchmark, exp2){
 
 TEST(algo_benchmark, pow){
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "---=== BENCHMARK EXP2 ===---" << std::endl;
-    std::cout << "log2 performance review" << std::endl;
+    std::cout << "---=== BENCHMARK POW ===---" << std::endl;
+    std::cout << "log2 performance review " << configName << std::endl;
 #endif
-    CHRONOMETER_ITERATION(std::pow(150.0,1.25),                                            ,"std::pow         (dbl)",1000000,5)
-    CHRONOMETER_ITERATION(fln::object::pow(f,p),fln::object::BitDouble f(150.0);fln::object::BitDouble p(1.25),"fln::object::pow (dbl)",1000000,15)
-    CHRONOMETER_ITERATION(fln::bithack::pow(150.0,1.25),                                   ,"fln::bithack::pow(dbl)",1000000,10)
     CHRONOMETER_DURATION(,,"",1,1); // warmup
-    CHRONOMETER_ITERATION(std::pow(150.0f,1.25f),                                           ,"std::pow              ",1000000,300)
-    CHRONOMETER_ITERATION(fln::object::pow(f,p),fln::object::BitFloat f(150.0f);fln::object::BitFloat p(1.25f),"fln::object::pow      ",1000000,15)
-    CHRONOMETER_ITERATION(fln::bithack::pow(150.0f,1.25f),                                  ,"fln::bithack::pow     ",1000000,10)
+    CHRONOMETER_ITERATION(std::pow(150.0,1.25),                                            ,"std::pow         (dbl)",5)
+    CHRONOMETER_ITERATION(fln::object::pow(f,p),fln::object::BitDouble f(150.0);fln::object::BitDouble p(1.25),"fln::object::pow (dbl)",15)
+    CHRONOMETER_ITERATION(fln::bithack::pow(150.0,1.25),                                   ,"fln::bithack::pow(dbl)",10)
+    CHRONOMETER_ITERATION(std::pow(150.0f,1.25f),                                           ,"std::pow              ",300)
+    CHRONOMETER_ITERATION(fln::object::pow(f,p),fln::object::BitFloat f(150.0f);fln::object::BitFloat p(1.25f),"fln::object::pow      ",15)
+    CHRONOMETER_ITERATION(fln::bithack::pow(150.0f,1.25f),                                  ,"fln::bithack::pow     ",10)
 #ifdef FLN_VERBOSE_TEST
-    std::cout << "---=== END EXP2 ===---" << std::endl;
+    std::cout << "---=== END POW ===---" << std::endl;
 #endif
 }
 
