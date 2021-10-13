@@ -201,6 +201,28 @@ constexpr u64 nnegZero64= ~negZero64;        ///< mask of the 64 bits except sig
     return bithack::asFloat(sqrt_magic + (bithack::asInt(x) >> 1U));
 }
 
+/**
+ * @brief inverse square root as defined n Quake
+ * @param x the float to inverse square root
+ * @return theinverse square root
+ */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+[[nodiscard]] inline f32 rsqrt_quake(const f32& x) {
+    long i;
+    float x2, y;
+    const float threehalfs= 1.5F;
+
+    x2= x * 0.5F;
+    y = x;
+    i = *(long*)&y;           // evil floating point bit level hacking
+    i = 0x5f3759df - (i >> 1);// what the fuck?
+    y = *(float*)&i;
+    y = y * (threehalfs - (x2 * y * y));// 1st iteration
+    //	y = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
+    return y;
+}
+#pragma GCC diagnostic pop
 }// namespace bithack
 
 // ---=== SQRT 32 ===---

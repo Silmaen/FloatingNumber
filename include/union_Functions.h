@@ -186,6 +186,14 @@ using if64 = union{u64 i;f64 x;}; ///< 64bit union with uint based initializatio
     return u.x;
 }
 
+[[nodiscard]] constexpr f32 rsqrt_quake(const f32& x) {
+    f32 x2{x * 0.5F};
+    ff32 y{x};
+    y.i = 0x5f3759df - (y.i >> 1);// what the fuck?
+    y.x *= (1.5F - (x2 * y.x * y.x));// 1st iteration
+    // y.x *= ( threehalfs - ( x2 * y.x * y.x ) ); // 2nd iteration, this can be removed
+    return y.x;
+}
 
 }// namespace bithack
 

@@ -11,6 +11,7 @@
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-result"
+#pragma GCC diagnostic ignored "-Wunused-value"
 
 TEST(algo_benchmark, abs) {
 #ifdef FLN_VERBOSE_TEST
@@ -130,5 +131,29 @@ TEST(algo_benchmark, sqrt) {
     std::cout << "---=== END SQRT ===---" << std::endl;
 #endif
 }
+
+
+TEST(algo_benchmark, inverse_sqrt) {
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "---=== BENCHMARK INVERSE SQRT ===---" << std::endl;
+    std::cout << "invrse sqrt performance review " << configName << std::endl;
+#endif
+    fln::object::BitDouble fd(150.0);
+    fln::object::BitFloat f(150.0f);
+    CHRONOMETER_DURATION(, "", 1, 1);// warmup
+    std::sqr
+    CHRONOMETER_ITERATION(1.0/std::sqrt(150.0)              , "1.0/std::sqrt            (dbl)", 5)
+    CHRONOMETER_ITERATION(1.0/fln::bithack::sqrt(150.0 )    , "1.0/fln::bithack::sqrt   (dbl)", 10)
+    CHRONOMETER_ITERATION(1.0/fln::_union::sqrt(150.0 )     , "1.0/fln::_union::sqrt    (dbl)", 10)
+    CHRONOMETER_ITERATION(1.0f/std::sqrt(150.0f)            , "1.0f/std::sqrt                ", 300)
+    CHRONOMETER_ITERATION(1.0f/fln::bithack::sqrt(150.0f)   , "1.0f/fln::bithack::sqrt       ", 10)
+    CHRONOMETER_ITERATION(fln::bithack::rsqrt_quake(150.0f) , "fln::bithack::rsqrt_quake     ", 10)
+    CHRONOMETER_ITERATION(1.0f/fln::_union::sqrt(150.0f)    , "1.0f/fln::_union::sqrt        ", 10)
+    CHRONOMETER_ITERATION(fln::_union::rsqrt_quake(150.0f)  , "fln::_union::rsqrt_quake      ", 10)
+#ifdef FLN_VERBOSE_TEST
+    std::cout << "---=== END INVERSE SQRT ===---" << std::endl;
+#endif
+}
+
 
 #pragma GCC diagnostic pop
