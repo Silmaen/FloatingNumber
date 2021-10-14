@@ -141,7 +141,6 @@ TEST(algo_benchmark, inverse_sqrt) {
     fln::object::BitDouble fd(150.0);
     fln::object::BitFloat f(150.0f);
     CHRONOMETER_DURATION(, "", 1, 1);// warmup
-    std::sqr
     CHRONOMETER_ITERATION(1.0/std::sqrt(150.0)              , "1.0/std::sqrt            (dbl)", 5)
     CHRONOMETER_ITERATION(1.0/fln::bithack::sqrt(150.0 )    , "1.0/fln::bithack::sqrt   (dbl)", 10)
     CHRONOMETER_ITERATION(1.0/fln::_union::sqrt(150.0 )     , "1.0/fln::_union::sqrt    (dbl)", 10)
