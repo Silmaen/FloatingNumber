@@ -35,8 +35,13 @@ struct RandomGenerator {
      * @return new number
      */
     u64 rand() {
-        seed= (214013 * seed + 2531011);
-        return ((seed >> 32U) & 0x7FFFFFFFU);
+        //    seed= (214013 * seed + 2531011);
+        //    return ((seed >> 32U) & 0x7FFFFFFFU);
+        u64 a{seed};
+        a^= a << 13U;
+        a^= a >> 7U;
+        a^= a << 17U;
+        return seed= a;
     }
     u64 seed;///< the actual seed of the generator
 };

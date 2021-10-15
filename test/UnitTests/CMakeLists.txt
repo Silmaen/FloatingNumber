@@ -9,7 +9,7 @@ add_executable(fln_unit_test ${SRCS})
 
 # base includes
 target_include_directories(fln_unit_test PUBLIC ${FLN_ROOT_DIR}/include)
-target_link_libraries(fln_unit_test gtest gtest_main)
+target_link_libraries(fln_unit_test gtest gtest_main ${CMAKE_PROJECT_NAME}_lib)
 
 add_test(fln_UTests ./fln_unit_test  --gtest_output=xml:test/UTest_Report.xml)
 set_tests_properties(fln_UTests PROPERTIES TIMEOUT 3600)

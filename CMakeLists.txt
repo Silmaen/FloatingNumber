@@ -33,9 +33,11 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
     #linker flags
     if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-        set(CMAKE_EXE_LINKER_FLAGS "-lm -lpthread")
+        link_libraries(-lm -lpthread)
+        #set(CMAKE_EXE_LINKER_FLAGS "-lm -lpthread")
     else()
-        set(CMAKE_EXE_LINKER_FLAGS "-lm -lpthread -ldl -lcrypt")
+        link_libraries(-lm -lpthtread -ldl -lcrypt)
+        #set(CMAKE_EXE_LINKER_FLAGS "-lm -lpthread -ldl -lcrypt")
     endif()
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     # compiler flags
@@ -68,6 +70,9 @@ endif()
 # ---=== Print Configuration ===---
 message(STATUS "Build options are: ${CMAKE_CXX_FLAGS} ${COMPILE_DEFINITIONS}")
 message(STATUS  "Link  options are: ${CMAKE_EXE_LINKER_FLAGS}")
+
+# ---=== Library ===---
+add_subdirectory(src)
 
 # ---=== Unit Tests ===---
 enable_testing()
